@@ -589,6 +589,10 @@ Results of a one-way ANOVA could be interpreted to suggest that white drivers ar
 
 # Save your work
 
+> BINDER USERS! CLick the "More" button on the "Files" tab in Binder, and then select "Export" to download files or folders to your computer. Screenshot below: 
+
+![binder_export](img/binder_export.png)
+
 There are many ways to import and export data in R. 
 
 We can save datasets and tables we create with the `write.csv()` function. The first argument is the variable name, the second argument is the file path/name.
