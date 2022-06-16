@@ -123,15 +123,17 @@ Install both R and RStudio. While they are often referred to synonymously, they 
 
 Please try and install R and RStudio before the workshop start time. If you cannot, simply click the Binder button below to launch a version of these workshop materials in RStudio in your preferred web browser. This will take a few minutes to load, so be sure to do so before the workshop start time. 
 
-Click [![Binder]]
+Click this button [[![Binder]https://mybinder.org/v2/gh/EastBayEv/sicss-howard-mathematica-R-2022/HEAD?urlpath=rstudio]](https://mybinder.org/v2/gh/EastBayEv/sicss-howard-mathematica-R-2022/HEAD?urlpath=rstudio) to launch Binder.
 
 # Download these workshop materials
 
 If you plan to use these materials locally on your personal computer, download these materials by following the below steps: 
-  1. Visit: 
+  1. Visit: https://github.com/EastBayEv/sicss-howard-mathematica-R-2022
   2. Click the green "Code" button
   3. Click "Download Zip"
   4. Extract the archive someplace familiar (e.g., Desktop)
+
+> Git users can simply `git clone https://github.com/EastBayEv/sicss-howard-mathematica-R-2022.git`
 
 # Get started
 
