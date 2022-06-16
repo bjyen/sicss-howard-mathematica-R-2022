@@ -1,0 +1,252 @@
+---
+title: "sicss-howard-mathematica-R-2022 challenge problem solutions"
+author: "Evan Muzzall"
+date: '2022-06-16'
+output: html_document
+---
+
+# Part 1 - Challenge - dataframes
+
+1. Create a dataframe that contains 6 rows and 3 columns by following the instructions above.
+
+```{r}
+school <- c("Stanford", "Stanford", "Stanford", "UC Berkeley", "UC Berkeley", "UC Berkeley")
+year <- c(1990, 2000, 2020, 1990, 2000, 2020)
+pop <- c(10000, 14000, 20000, 20000, 30000, 45000)
+income <- year * pop
+
+df <- data.frame(school, year, pop, income)
+df
+```
+
+2. Advanced: what is the difference between a data frame and a tidyverse tibble? 
+
+https://tibble.tidyverse.org/
+
+# Part 1 - Challenge - subsetting
+
+1. Create a subset that contains data from DC or stops less than or equal to 7000 and just columns "city" and "traffic_stops"
+
+```{r}
+traffic_stops <- c(8814, 9915, 9829, 10161, 6810, 8991)
+city <- as.factor(c("SF", "DC", "DC", "DC", "SF", "SF"))
+year <- as.integer(c(2000, 2000, 2001, 2002, 2001, 2002))
+police <- data.frame(city, traffic_stops, year)
+police
+class(police)
+
+subset3 <- police[police$city == "DC" | police$traffic_stops <= 7000, c("city", "traffic_stops")]
+subset3
+
+# 2. Advanced: use the `filter()` and `select()` functions from the `dplyr` R package to do the same thing. 
+library(dplyr)
+subset3_dplyr <- police %>%
+  filter(city == "DC" | traffic_stops <= 7000) %>%
+  select(city, traffic_stops)
+subset3_dplyr
+```
+
+# Part 1 - Challenge - workflows
+
+1. Reproduce the above workflow using the dataset "ca_oakland_2020_04_01 2.csv".
+
+2. Ask the question: how does the distribution of arrests vary by race? Hint: use a barplot (you might have to generate frequencies first to make the barplot!).
+
+```{r eval = F}
+?barplot
+?t.test
+```
+
+```{r}
+# Import
+oak <- read.csv("data/raw/ca_oakland_2020_04_01 2.csv",
+               stringsAsFactors = TRUE)
+str(oak)
+
+# Wrangle
+oak_sub <- oak[ , c("subject_race", "arrest_made")]
+str(oak_sub)
+head(oak_sub)
+
+# Summarize
+table(oak$arrest_made)
+
+arrests <- table(oak$subject_race, 
+                 oak$arrest_made)
+arrests
+
+# Visualize
+barplot(arrests[,2], las = 2)
+
+# Analyze
+oak_aov <- aov(oak$arrest_made ~ oak$subject_race)
+summary(oak_aov)
+TukeyHSD(oak_aov)
+```
+
+3. Save the "ca_oakland_2020_04_01 2.csv" dataset in a variable named oak. Use the `save()` function to save it in a file name "oak.csv" in the "data/preprocessed" folder.
+
+```{r}
+save(oak, file = "data/preprocessed//oak.RData")
+```
+
+4. Advanced: Use ggplot2 to make the barplot. 
+
+What other statistical applications might be more appropriate? 
+
+- Factor Analysis for Mixed Data: http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/115-famd-factor-analysis-of-mixed-data-in-r-essentials/
+- Multiple Correspondence Analysis: http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/114-mca-multiple-correspondence-analysis-in-r-essentials/
+- Cramer's V correlation for categorical data: https://rdrr.io/cran/DescTools/man/CramerV.html
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+oak_summary <- oak_sub %>%
+  group_by(subject_race) %>%
+  summarise(count = n())
+oak_summary
+
+
+ggplot(data = oak_summary, aes(x = subject_race, 
+                               y = count, 
+                               fill = subject_race)) + 
+  geom_bar(stat = "identity", 
+           width = 0.5, 
+           color = "black") + 
+  theme_bw() + 
+  theme(plot.title = element_text(hjust = 0.5), 
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+        legend.position = "none") +
+  xlab("Driver race") + 
+  ylab("Number of stops") + 
+  ggtitle("Number of stops by driver race,\n Oakland, California, USA\nMarch 2013 - December 2017") 
+```
+
+# Part 2 - Challenge - messy data
+
+1. Why is this data not tidy?
+
+```{r}
+tidyr::table4a
+# ?table4a
+```
+
+The two years should be contained within one column. Their values should be contained in a separate column. 
+
+
+# Part 2 - Challenge - `pivot_longer()`
+
+1.  Why is this data not tidy? (This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).) Too long or too wide?
+
+```{r}
+tidyr::billboard
+```
+
+2.  How can you fix it? Which pivot?
+
+```{r}
+billboard_ready <- tidyr::billboard %>%
+  tidyr::pivot_longer(
+    cols = starts_with("wk"), # Use regular expressions
+    names_to = "week",
+    values_to = "rank",
+    values_drop_na = TRUE # Drop NAs
+)
+billboard_ready
+```
+
+# Part 2 - Challenge - explicit and implicit missing values
+
+1 This example comes from [*R for Data Science*](https://r4ds.had.co.nz/tidy-data.html). Where is the explicit missing value? 
+
+```{r}
+stocks <- tibble(
+  year = c(2019, 2019, 2019, 2020, 2020, 2020),
+  qtr = c(1, 2, 3, 2, 3, 4),
+  return = c(1, 2, 3, NA, 2, 3)
+)
+stocks
+```
+
+Use `pivot_wider()` to widen the `stocks` dataframe into a datafrme named `stocks_wide`. Does `stocks_wide` have implicit missing values?
+
+```{r}
+# implicit missing values become explicit
+stocks_wider <- stocks %>%
+  tidyr::pivot_wider(
+    names_from = year,
+    values_from = return
+  )
+stocks_wider
+```
+
+# Part 2 - Challenge - `filter()`
+
+1. Use `filter(between())` to subset a dataframe that contains only drivers between the ages of 10 and 13. 
+
+```{r}
+minors <- clean %>%
+  dplyr::filter(dplyr::between(age, 10, 13))
+minors
+```
+
+# Part 2 - Challenge - combining `group_by()` and `summarize()`
+
+1. Create a new tibble that contains average age and standard deviation by sex and arrest made. 
+
+```{r}
+combined_summary <- clean %>%
+  group_by(sex, arrest_made) %>%
+  summarize(mean_age = mean(age, na.rm = TRUE),
+            sd_age = sd(age, na.rm = TRUE))
+combined_summary
+```
+
+# Part 2 - Challenge - `summarize(across())`
+
+1. use a combination of `summarize(across())` to compute the means of the last three column in the dataframe below. Use the help files and your intuition to figure it out!
+
+```{r}
+wide_data <- read.table(header = TRUE,
+                        text = "
+ patient sex control meas1 meas2
+       1   M     8.9  14.1  11.2
+       2   F     6.1  11.6  10.3
+       3   F     8.2  13.5  14.1
+       4   M    12.5  12.4  11.8
+")
+wide_data
+
+wide_data %>%
+  summarize(across(control:meas2, mean, na.rm = TRUE))
+```
+
+# Part 2- Challenge - ggplot2
+
+1. Use the `load()` function to load "oak.RData". 
+
+```{r}
+## YOUR CODE HERE
+load("data/preprocessed/oak.RData")
+```
+
+2. Make boxplots for male and female drivers. 
+
+- Define a custom y-axis with intervals of 0, 20, 40, 60, 80, and 100. 
+- Fill the boxes with the "BuPu" RColorBrewer palette. 
+- Apply the Stata ggtheme
+
+```{r}
+## YOUR CODE HERE
+ggplot(clean, 
+       aes(x = sex, 
+           y = age,
+           fill = sex)) + 
+  geom_boxplot() + 
+  scale_y_continuous(breaks = c(0, 20, 40, 60, 80, 100),
+                     limits = c(0, 100)) + 
+  scale_fill_brewer(palette = "BuPu") + 
+  ggthemes::theme_stata() + 
+  theme(legend.position = "none")
+```
