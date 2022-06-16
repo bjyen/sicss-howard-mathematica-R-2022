@@ -123,7 +123,7 @@ Install both R and RStudio. While they are often referred to synonymously, they 
 
 Please try and install R and RStudio before the workshop start time. If you cannot, simply click the Binder button below to launch a version of these workshop materials in RStudio in your preferred web browser. This will take a few minutes to load, so be sure to do so before the workshop start time. 
 
-Click this button [[![Binder]https://mybinder.org/v2/gh/EastBayEv/sicss-howard-mathematica-R-2022/HEAD?urlpath=rstudio]](https://mybinder.org/v2/gh/EastBayEv/sicss-howard-mathematica-R-2022/HEAD?urlpath=rstudio) to launch Binder.
+Click here to launch Binder [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/EastBayEv/sicss-howard-mathematica-R-2022/HEAD?urlpath=rstudio)
 
 # Download these workshop materials
 
