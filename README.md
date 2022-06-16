@@ -135,7 +135,7 @@ If you plan to use these materials locally on your personal computer, download t
 
 # Get started
 
-Open the file `Day1.Rmd` to get started. 
+Open the file `Part1.Rmd` to get started. 
 
 # Resources 
 
