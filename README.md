@@ -19,7 +19,7 @@ If you are a beginner, you will learn how the computational aspect fits into a b
 
 If you are already an R user this will be a good opportunity to refresh and structure your existing knowledge, while building confidence with the tidyverse to accomplish more complex tasks in easier ways. I encourage you to contribute your perspectives to the topics being covered, strengths and weaknesses, potential pitfalls, and more efficient ways of doing things. 
 
-There are many more topics we cannot get to due to time constraints, such as accessing the American Community Survey through the `tidycensus` package, webscraping, text analysis, machine learning, and more! Contact me if you want to talk more. 
+There are many more topics we cannot get to due to time constraints, such as accessing the American Community Survey through the `tidycensus` package, webscraping, text analysis, machine learning, and more! Please contact me if you want to email or chat. 
 
 ## Datasets
 
