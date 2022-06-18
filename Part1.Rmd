@@ -210,6 +210,8 @@ Alternatively, you can wipe your Environment clean by clicking the yellow broom 
 rm(list = ls())
 ```
 
+If your environment gets too messy, pressy `ctrl + l` to return the prompt to the top and make it more readalble. This also makes scrolling through your output much easier!
+
 > To completely restart your R session, click "Session" --> "Restart R" from the top toolbar menu. 
 
 ## Data structures: vector, data frame
