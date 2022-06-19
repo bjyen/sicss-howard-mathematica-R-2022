@@ -1,0 +1,1875 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Part1 - sicss-howard-mathematica-R-2022},
+  pdfauthor={Evan Muzzall, SSDS, Stanford University, https://ssds.stanford.edu/},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Part1 - sicss-howard-mathematica-R-2022}
+\author{Evan Muzzall, SSDS, Stanford University,
+\url{https://ssds.stanford.edu/}}
+\date{18 June 2022}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\hypertarget{computational-social-science-css-example-research-workflow}{%
+\section{Computational Social Science (CSS) example research
+workflow}\label{computational-social-science-css-example-research-workflow}}
+
+Scientific research is necessary because it provides solutions to many
+problems, from those found in everyday life to the mysteries of
+existence. It is used to build knowledge, teach, learn, and increase
+awareness through cutting edge technologies and techniques that create
+new ideas and that are born out of creativity and curiosity. ``Social''
+science research focuses on humans, their interactions, and the
+societies they exist within and relies on data - forms of information -
+for it to work.
+
+While it is fun to discuss the postmodern constructs for the definition
+of data, in the context of this workshop it is defined as quantitative
+and qualitative representations of information generally found in the
+form of numbers, text, images, video, and audio.
+
+How then, might we approach a data-intensive computational social
+science research project? The example below is a simplified
+representation.
+
+\begin{figure}
+\centering
+\includegraphics{img/workflow.png}
+\caption{workflow}
+\end{figure}
+
+\hypertarget{preparation}{%
+\subsection{Preparation}\label{preparation}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Read} the relevant literature in your field. What questions
+  are those authors asking, and in what directions do they suggest
+  future research should go? What are the limitations and other
+  problems?
+\item
+  \textbf{Ask a question} forged from your knowledge of the literature.
+  You can cobble together a virtually endless supply of research
+  questions with some creative thinking and a critical perspective.
+\item
+  \textbf{Design} your research framework. What type of question(s) are
+  you asking, what are the assumptions of the data you seek and what are
+  your expected outcomes?
+\item
+  Define \textbf{milestones.} When is your final deadline? Divide your
+  project into subparts. Completing smaller goals will not only give you
+  a sense of progress, but will also allow you to see how the parts
+  connect together and will improve the quality of yoru work.
+\end{itemize}
+
+\hypertarget{data}{%
+\subsection{Data}\label{data}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Acquire} data. All projects require some form of data,
+  theoretical musings aside, whether you obtain it from a government or
+  other organization, scrape it from the web, or collect it yourself.
+\item
+  \textbf{Import} the data into R. As you can see, there is a lot of
+  work to be done even before the computational part! However, do not
+  let this discourage you from experimenting with R.
+\item
+  \textbf{Wrangle} your data when necessary. Ensuring its quality and
+  validation is essential because the data will determine your results
+  along with their interpretation. Inconsistencies and other errors are
+  inevitable, especially when compiling data from multiple sources.
+  Close visual inspection for errors is always a good first step, but
+  you will likely spend much of your time fixing structural errors,
+  standardizing names, handling missing values, dealing with outliers,
+  and removing duplicate observations. You should always document your
+  data wrangling process not only to inform your audience, but also in
+  case you need to refer to back to it in the future.
+\end{itemize}
+
+\hypertarget{exploration}{%
+\subsection{Exploration}\label{exploration}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Summarize} your data. A common misconception is that a
+  researcher must incorporate complicated methods and artificial
+  intelligence to produce meaningful results. However, often-overlooked
+  summary statistics can not only help cross-check your data wrangling,
+  but can also elucidate patterns that can influence your assumptions
+  and expectations.
+\item
+  \textbf{Visualize} aspects of your data. The goal of data
+  visualization is to communicate some aspect of your data to an
+  audience in a clear and concise way.
+\end{itemize}
+
+\hypertarget{analysis}{%
+\subsection{Analysis}\label{analysis}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Evaluate} specific facets of the data now that you have built
+  a foundation to do so.
+\end{itemize}
+
+\hypertarget{presentation}{%
+\subsection{Presentation}\label{presentation}}
+
+\begin{itemize}
+\tightlist
+\item
+  Effective communication of your subject matter is just as important as
+  knowing your stuff. Whether you are presenting a slideshow to
+  colleagues, poster, conference talk, webinar, or submitting a
+  manuscript for peer-review, effective communication of your subject
+  matter is just as important as knowing your stuff and takes a lot of
+  practice.
+\end{itemize}
+
+\hypertarget{why-r}{%
+\section{Why R?}\label{why-r}}
+
+Data need to be imported, wrangled, explored, and analyzed in order to
+make contributions to legitimate bodies of knowledge.
+
+R is expert at these computational parts of the research process, It is
+a free (to use, not necessarily to develop!) and open programming
+language that helps you teach a computer to perform a ``data science''
+task. Note that R was designed to do statistics/data science from its
+conception and has evolved that way.
+
+\hypertarget{what-is-rstudio}{%
+\subsection{What is RStudio?}\label{what-is-rstudio}}
+
+RStudio is the graphical user interface/environment that we will program
+R inside of. It is really helpful for staying organized and offers much
+more functionality than the R language provides by itself. RStudio is
+also highly customizable.
+\href{https://support.rstudio.com/hc/en-us/articles/200549016-Customizing-the-RStudio-IDE}{Read
+the customization guide by clicking here}.
+
+\hypertarget{source-files}{%
+\subsubsection{Source files}\label{source-files}}
+
+So, where do we type instructions for these data related tasks
+
+\hypertarget{script}{%
+\paragraph{Script}\label{script}}
+
+Scripts are simply plain text files with a .R file extension. Click
+\texttt{File\ -\/-\textgreater{}\ New\ File\ -\/-\textgreater{}\ R\ Script}
+to open one. In R scripts: - Code is entered normally - Hashtags
+\texttt{\#} are used to comment your code, or make notes to yourself and
+others
+
+\hypertarget{r-markdown-file}{%
+\paragraph{R Markdown file}\label{r-markdown-file}}
+
+R Markdown files utilize markdown, a lightweight markup language, to
+allow you to intersperse code and formattable text.
+\href{https://rmarkdown.rstudio.com/lesson-1.html}{Read the guide} to
+learn how to format your R Markdown files.
+
+Enter code in \href{https://rmarkdown.rstudio.com/lesson-3.html}{chunks}
+and press \texttt{Control\ +\ Enter} to run a line of code, run multiple
+highlighted lines of code, or press the green ``Play'' button on the
+right side to run the entire chunk.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{2} \SpecialCharTok{+} \DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cos}\NormalTok{(pi)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -1
+\end{verbatim}
+
+\hypertarget{navigating-rstudio}{%
+\subsubsection{Navigating RStudio}\label{navigating-rstudio}}
+
+\begin{figure}
+\centering
+\includegraphics{img/navigate_rstudio.png}
+\caption{navigate\_rstudio}
+\end{figure}
+
+\hypertarget{r-projects}{%
+\subsection{R projects}\label{r-projects}}
+
+R Projects files (.Rproj) are associated with your
+\href{http://www.sthda.com/english/wiki/running-rstudio-and-setting-up-your-working-directory-easy-r-programming}{\textbf{working
+directory}} (the location on your computer that your actions are
+relevant to) and are great for staying organized by organizing your
+project and its context into a single location. The working directory is
+set and retrieved via a \textbf{file path}.
+
+\begin{quote}
+You can change the working directory location with the \texttt{setwd()}
+function, or by clicking ``Session'' --\textgreater{} ``Set Working
+Directory'' --\textgreater{} ``Choose Directory'' from the top toolbar
+menu. However,
+\end{quote}
+
+\href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-Projects}{Learn
+more about setting up an R Project by clicking here.}
+
+\hypertarget{basic-building-blocks-of-r-programming}{%
+\section{Basic building blocks of R
+programming}\label{basic-building-blocks-of-r-programming}}
+
+You will find that no matter how complex of a task you are faced with,
+you will pretty much always rely on the same basic building blocks to
+accomplish it. However, it is up to you to arrange them in specific ways
+to accomplish something creative and meaningful.
+
+\hypertarget{objects-functions-and-arguments}{%
+\subsection{Objects, functions, and
+arguments}\label{objects-functions-and-arguments}}
+
+Everything that exists in R is an \textbf{object} or some piece of
+information/data that can be manipulated.
+
+Almost everything that happens is a \textbf{function call}, or a command
+that performs an action on a ``thing''. Functions always contain
+trailing round parentheses \texttt{()}.
+
+These ``things'' are called \textbf{arguments} and are defined in
+function creation as \textbf{parameters.}
+
+\hypertarget{variable-assignment}{%
+\subsection{Variable assignment}\label{variable-assignment}}
+
+Variables (which are also objects) are how data are saved in R's memory,
+which lives in a physical location on your computer. These are just
+placeholders and can contain virtually anything: values, mathematical
+expressions, text, functions, or entire datasets.
+
+\texttt{\textless{}-} is the assignment operator. It assigns values on
+the right to objects on the left. So, after executing
+\texttt{x\ \textless{}-\ 5}, the value of \texttt{x} is \texttt{5}.
+
+You can read this in plain language as ``x is defined as 5'', ``5 is
+assigned to x'', or most simply as ``x is equal to 5''.
+
+This performs the assignment step. Note that the variable now appears on
+your ``Environment'' tab.
+
+Type the name of the variable and run it (``call'' the variable) to show
+it on the screen.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{5}
+\NormalTok{x}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\hypertarget{data-types-numeric-character-logical-integer-factor}{%
+\subsection{Data types: numeric, character, logical, integer,
+factor}\label{data-types-numeric-character-logical-integer-factor}}
+
+Like everything else in R, data have a class (type) associated with it
+which determines how we can manipulate it. Use the \texttt{class()}
+function to find out. In this case, the variable \texttt{x} is the
+argument.
+
+We will talk about five basic types:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Numeric: decimals; the default class for all numbers in R
+\item
+  Character: text, always wrapped in quotations \texttt{"\ "} (single or
+  double are fine, be consistent)
+\item
+  Logical: TRUE and FALSE; stored internally as 1 and 0 and as such take
+  on mathematical properties; useful for turning function parameters
+  ``on'' or ``off'', as well as for data subsetting (see below).
+\item
+  Integer: positive and negative whole numbers, including zero
+\item
+  Factor: categorical data
+\item
+  Numeric class
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "numeric"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Character
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# use a hashtag within a code chunk to comment your code}
+\CommentTok{\# note the use of the underscore to represent a space in the variable name}
+\NormalTok{my\_name }\OtherTok{\textless{}{-}} \StringTok{"Evan"}
+\NormalTok{my\_name}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Evan"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(my\_name)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "character"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Logical
+\end{enumerate}
+
+In R, TRUE is 1 FALSE is 0
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ConstantTok{TRUE} \SpecialCharTok{+} \DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ConstantTok{FALSE} \SpecialCharTok{{-}} \DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# is 3 greater than 4?}
+\DecValTok{3} \SpecialCharTok{\textgreater{}} \DecValTok{4}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# is 4 less than or equal to 4?}
+\DecValTok{4} \SpecialCharTok{\textless{}=} \DecValTok{4}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# is "Apple" equal to "apple" (hint: R is case sensitive!)}
+\StringTok{"Apple"} \SpecialCharTok{==} \StringTok{"apple"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# is "Apple" not equal to "Apple"}
+\StringTok{"Apple"} \SpecialCharTok{!=} \StringTok{"Apple"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Integer
+\end{enumerate}
+
+We can use various ``as dot'' functions to convert data types. To
+convert numeric to integer class for example, we could type:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{as.integer}\NormalTok{(x)}
+\NormalTok{y}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "integer"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Factor
+\end{enumerate}
+
+Other ``as dot'' functions exist as well: \texttt{as.character()},
+\texttt{as.numeric()}, and \texttt{as.factor()} to name a few:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{school }\OtherTok{\textless{}{-}} \StringTok{"Stanford University"}
+\NormalTok{school}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Stanford University"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(school)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "character"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# convert to factor}
+\NormalTok{school\_fac }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(school)}
+\NormalTok{school\_fac}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] Stanford University
+## Levels: Stanford University
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(school\_fac)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "factor"
+\end{verbatim}
+
+It might seem difficult keeping track of variables you define, but
+remember they are listed in RStudio's ``Environment'' tab. You can also
+type \texttt{ls()} to print them to the console.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ls}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "my_name"    "school"     "school_fac" "x"          "y"
+\end{verbatim}
+
+Remove a single variable with \texttt{rm()}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rm}\NormalTok{(my\_name)}
+\NormalTok{my\_name }\CommentTok{\# Error}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{quote}
+Remember to use autocomplete when typing a function or variable name,
+since there is great potential for humans to make syntactical errors
+\end{quote}
+
+Alternatively, you can wipe your Environment clean by clicking the
+yellow broom icon on the Environment tab or by typing
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+If your environment gets too messy, pressy \texttt{ctrl\ +\ l} to return
+the prompt to the top and make it more readalble. This also makes
+scrolling through your output much easier!
+
+\begin{quote}
+To completely restart your R session, click ``Session'' --\textgreater{}
+``Restart R'' from the top toolbar menu.
+\end{quote}
+
+\hypertarget{data-structures-vector-data-frame}{%
+\subsection{Data structures: vector, data
+frame}\label{data-structures-vector-data-frame}}
+
+If saving one piece of data in a variable is good, saving many is
+better. Use the \texttt{c()} function to combine multiple pieces of data
+into a \textbf{vector}, which is an ordered group of the same type of
+data.
+
+We can nest the \texttt{c()} function inside of ``as dot'' functions to
+create vectors of different types.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# example numeric (default) vector}
+\NormalTok{traffic\_stops }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{8814}\NormalTok{, }\DecValTok{9915}\NormalTok{, }\DecValTok{9829}\NormalTok{, }\DecValTok{10161}\NormalTok{, }\DecValTok{6810}\NormalTok{, }\DecValTok{8991}\NormalTok{)}
+
+\CommentTok{\# Integer, logical, and factor vectors}
+\NormalTok{city }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"SF"}\NormalTok{, }\StringTok{"DC"}\NormalTok{, }\StringTok{"DC"}\NormalTok{, }\StringTok{"DC"}\NormalTok{, }\StringTok{"SF"}\NormalTok{, }\StringTok{"SF"}\NormalTok{))}
+\NormalTok{year }\OtherTok{\textless{}{-}} \FunctionTok{as.integer}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{2000}\NormalTok{, }\DecValTok{2000}\NormalTok{, }\DecValTok{2001}\NormalTok{, }\DecValTok{2002}\NormalTok{, }\DecValTok{2001}\NormalTok{, }\DecValTok{2002}\NormalTok{))}
+
+\CommentTok{\# Call these variables to print them to the screen and check their class}
+\NormalTok{traffic\_stops}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  8814  9915  9829 10161  6810  8991
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{city}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] SF DC DC DC SF SF
+## Levels: DC SF
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{year}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2000 2000 2001 2002 2001 2002
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(traffic\_stops)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "numeric"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(city)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "factor"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(year)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "integer"
+\end{verbatim}
+
+A \textbf{data frame} is an ordered group of \textbf{equal-length}
+vectors.
+
+\begin{quote}
+More simply put, a data frame is a tabular data structure organized into
+horizontal rows and vertical columns, i.e.~a spreadsheet! These are
+often stored as comma separated values (.csv) files, or plain text where
+commas are used to delineate column breaks and that look good in
+spreadsheet programs like Microsoft Excel.
+\end{quote}
+
+We can assemble our three vectors from above into a data frame with the
+\texttt{data.frame()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{police }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(city, traffic\_stops, year)}
+\NormalTok{police}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   city traffic_stops year
+## 1   SF          8814 2000
+## 2   DC          9915 2000
+## 3   DC          9829 2001
+## 4   DC         10161 2002
+## 5   SF          6810 2001
+## 6   SF          8991 2002
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(police)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "data.frame"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# display the compact structure of a data frame}
+\FunctionTok{str}\NormalTok{(police)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    6 obs. of  3 variables:
+##  $ city         : Factor w/ 2 levels "DC","SF": 2 1 1 1 2 2
+##  $ traffic_stops: num  8814 9915 9829 10161 6810 ...
+##  $ year         : int  2000 2000 2001 2002 2001 2002
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# class = data.frame}
+\CommentTok{\# 6 observations (rows)}
+\CommentTok{\# 3 variables (columns, or vectors)}
+\CommentTok{\# column names are preceded by the dollar sign }
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{challenge---dataframes}{%
+\section{Challenge - dataframes}\label{challenge---dataframes}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Create a dataframe that contains 6 rows and 3 columns by following the
+  instructions above.
+\item
+  Advanced: what is the difference between a data frame and a tidyverse
+  tibble?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# YOUR CODE HERE}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{indexing}{%
+\subsection{Indexing}\label{indexing}}
+
+A vector can be indexed (positionally referenced) by typing its name
+followed by its index within square brackets. For example, if we want to
+index just the first thing in the city vector, we could type
+
+Note that R is a ``one-indexed'' programming language. This means that
+counting anything starts at 1.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{city[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] SF
+## Levels: DC SF
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# or}
+\NormalTok{police}\SpecialCharTok{$}\NormalTok{city[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] SF
+## Levels: DC SF
+\end{verbatim}
+
+If we want to return just the third thing in traffic\_stops, we would
+type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{traffic\_stops[}\DecValTok{3}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 9829
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# or}
+\NormalTok{police}\SpecialCharTok{$}\NormalTok{traffic\_stops[}\DecValTok{3}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 9829
+\end{verbatim}
+
+\hypertarget{subsetting-single-columns-with}{%
+\subsection{\texorpdfstring{Subsetting single columns with
+\texttt{\$}}{Subsetting single columns with \$}}\label{subsetting-single-columns-with}}
+
+Note that columns are preceded by the dollar sign \texttt{\$}. You can
+access a single column by typing the name of your data frame, the
+\texttt{\$}, and then the column name. Note that autocomplete works for
+much more than just function and variable names!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# show just the column containing the number of traffic stops}
+\NormalTok{police}\SpecialCharTok{$}\NormalTok{traffic\_stops}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  8814  9915  9829 10161  6810  8991
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# ... which can then easily be plugged into another function}
+\FunctionTok{hist}\NormalTok{(police}\SpecialCharTok{$}\NormalTok{traffic\_stops)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Yen_Part1_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\hypertarget{subsetting-rows-and-columns-with-bracket-notation}{%
+\subsection{\texorpdfstring{Subsetting rows and columns with bracket
+notation
+\texttt{{[},{]}}}{Subsetting rows and columns with bracket notation {[},{]}}}\label{subsetting-rows-and-columns-with-bracket-notation}}
+
+This can also be extended to rows and columns using bracket notation
+\texttt{{[},{]}}
+
+Type the name of your data frame followed by square brackets with a
+comma inbetween them.
+
+Here, we can enter two indices: one for the rows (before the comma) and
+one for the columns (after the comma) like this:
+\texttt{{[}rows,\ cols{]}}
+
+For example, if we want two columns, we cannot use the dollar sign
+operator (since it only works for single columns), but we could type
+either the indices or the columns names as a vector!
+
+If either the row or column position is left blank, all rows/columns
+will be retured becuase no subset was specified.
+
+To subset the \texttt{police} with just the city name and number of
+stops columns, type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{city\_and\_stops }\OtherTok{\textless{}{-}}\NormalTok{ police[,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{)]}
+\NormalTok{city\_and\_stops}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   city traffic_stops
+## 1   SF          8814
+## 2   DC          9915
+## 3   DC          9829
+## 4   DC         10161
+## 5   SF          6810
+## 6   SF          8991
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# or, for consecutive sequences}
+\NormalTok{city\_and\_stops }\OtherTok{\textless{}{-}}\NormalTok{ police[,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{city\_and\_stops}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   city traffic_stops
+## 1   SF          8814
+## 2   DC          9915
+## 3   DC          9829
+## 4   DC         10161
+## 5   SF          6810
+## 6   SF          8991
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# or using variable names}
+\NormalTok{city\_and\_stops }\OtherTok{\textless{}{-}}\NormalTok{ police[,}\FunctionTok{c}\NormalTok{(}\StringTok{"city"}\NormalTok{, }\StringTok{"traffic\_stops"}\NormalTok{)]}
+\NormalTok{city\_and\_stops}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   city traffic_stops
+## 1   SF          8814
+## 2   DC          9915
+## 3   DC          9829
+## 4   DC         10161
+## 5   SF          6810
+## 6   SF          8991
+\end{verbatim}
+
+\begin{quote}
+Keep in mind that redefining a variable will overwrite it each time, as
+we are doing here.
+\end{quote}
+
+We can do the same thing for rows by adding a vector of the row indices
+to include. For example, to keep just rows 1, 2, and 3 along with
+columns ``city'' and ``traffic\_stops'' we could type:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{subset1 }\OtherTok{\textless{}{-}}\NormalTok{ police[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"city"}\NormalTok{, }\StringTok{"traffic\_stops"}\NormalTok{)]}
+\NormalTok{subset1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   city traffic_stops
+## 1   SF          8814
+## 2   DC          9915
+## 3   DC          9829
+\end{verbatim}
+
+Or, to keep rows 1, 2, and 4 along with ``city'' and ``traffic\_stops''
+columns:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{subset2 }\OtherTok{\textless{}{-}}\NormalTok{ police[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{"city"}\NormalTok{, }\StringTok{"traffic\_stops"}\NormalTok{)]}
+\NormalTok{subset2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   city traffic_stops
+## 1   SF          8814
+## 2   DC          9915
+## 4   DC         10161
+\end{verbatim}
+
+Subset by logical condition by using the logical operators discussed
+above: \texttt{==}, \texttt{\textgreater{}}, \texttt{\textless{}=}, etc.
+
+For example, if you want to subset only rows with stops less than 9000
+you would combine the dollar sign operator along with bracket notation.
+
+This performs a row subsetting operation based on the condition of a
+column. Note that the column position is left blank after the comma to
+indicate all columns should be retured.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{low\_stops }\OtherTok{\textless{}{-}}\NormalTok{ police[police}\SpecialCharTok{$}\NormalTok{traffic\_stops }\SpecialCharTok{\textless{}} \DecValTok{9000}\NormalTok{, ]}
+\NormalTok{low\_stops}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   city traffic_stops year
+## 1   SF          8814 2000
+## 5   SF          6810 2001
+## 6   SF          8991 2002
+\end{verbatim}
+
+Or, to include multiple conditions use logical and \texttt{\&} (all
+conditions must be satisfied) and logical or \texttt{\textbar{}} (just
+one condition must be satisfied).
+
+To subset just rows that contain SF as the city and stops less than
+7000, type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sf\_low\_stops }\OtherTok{\textless{}{-}}\NormalTok{ police[police}\SpecialCharTok{$}\NormalTok{city }\SpecialCharTok{==} \StringTok{"SF"} \SpecialCharTok{\&}\NormalTok{ police}\SpecialCharTok{$}\NormalTok{traffic\_stops }\SpecialCharTok{\textless{}} \DecValTok{7000}\NormalTok{, ]}
+\NormalTok{sf\_low\_stops}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   city traffic_stops year
+## 5   SF          6810 2001
+\end{verbatim}
+
+\hypertarget{challenge---subsetting}{%
+\section{Challenge - subsetting}\label{challenge---subsetting}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Create a subset that contains data from DC or stops less than or equal
+  to 7000 and just columns ``city'' and ``traffic\_stops''
+\item
+  Advanced: use the \texttt{filter()} and \texttt{select()} functions
+  from the \texttt{dplyr} R package to do the same thing.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# YOUR CODE HERE}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{getting-help}{%
+\subsection{Getting help}\label{getting-help}}
+
+R provides excellent help documentation that often tells you everything
+to know, but you might not know it yet!
+
+Type a question mark before a function name to view the help pages.
+
+Read the \textbf{Description} section to understand what the function
+does.
+
+The \textbf{Usage} section describes the parameters that you can pass
+arguments to.
+
+The \textbf{Arguments} list defines how the arguments work.
+
+Often included (but not always) below these sections are
+\textbf{Detiails} that offer more information, \textbf{Value} that
+describes the returned objects, \textbf{Notes}, \textbf{Authors},
+\textbf{References} and copy/paste \textbf{Examples} to experiment with.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{?c}
+\NormalTok{?data.frame}
+
+\CommentTok{\# look at help pages for linear regression}
+\NormalTok{?lm}
+
+\CommentTok{\# generalized linear models}
+\NormalTok{?glm}
+
+\CommentTok{\# arithmetic mean}
+\NormalTok{?mean}
+
+\CommentTok{\# histogram}
+\NormalTok{?hist}
+
+\CommentTok{\# Wrap symbols in quotations to view their help files}
+\NormalTok{?}\StringTok{"\textgreater{}"}
+\NormalTok{?}\StringTok{"\&"}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{putting-it-all-together-css-research-workflow-example}{%
+\section{Putting it all together: CSS research workflow
+example}\label{putting-it-all-together-css-research-workflow-example}}
+
+Now that you have at least some basic familiarity with basic R syntax
+and functionality, let's work through a computational workflow example.
+
+\hypertarget{package-installations}{%
+\subsection{Package installations}\label{package-installations}}
+
+Because R has evolved for statistical functionality, it has considerable
+variety in its built-in functionality. This means that you can
+accomplish many tasks without having to install additional user-defined
+software packages that contain shortcuts for virtually every discipline
+and that make R work smarter for you.
+
+However, you will likely find yourself needing functionality beyond what
+is built into R's base installation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Step 1. Physically download the files to your computer (Internet connection required)}
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"psych"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Step 2. Import the package\textquotesingle{}s functionality with the library() function and link it to your current RStudio session (do this each time you close and reopen RStudio)}
+\FunctionTok{library}\NormalTok{(psych)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# you can also call help on some packages to view vignette\textquotesingle{}s, or purposeful coding walkthroughs with double question marks}
+\CommentTok{\# Click "Introduction to the psych package {-} PDF" to learn more}
+\NormalTok{??psych}
+
+\NormalTok{?describe}
+\NormalTok{?describeBy}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# summary statistics for pooled police}
+\FunctionTok{describe}\NormalTok{(police)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               vars n    mean      sd median trimmed    mad  min   max range
+## city*            1 6    1.50    0.55    1.5    1.50   0.74    1     2     1
+## traffic_stops    2 6 9086.67 1237.59 9410.0 9086.67 816.17 6810 10161  3351
+## year             3 6 2001.00    0.89 2001.0 2001.00   1.48 2000  2002     2
+##                skew kurtosis     se
+## city*          0.00    -2.31   0.22
+## traffic_stops -0.84    -0.94 505.24
+## year           0.00    -1.96   0.37
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# summary statistics for police, by group }
+\FunctionTok{describeBy}\NormalTok{(police, }\AttributeTok{group =}\NormalTok{ police}\SpecialCharTok{$}\NormalTok{city)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Descriptive statistics by group 
+## group: DC
+##               vars n    mean     sd median trimmed    mad  min   max range skew
+## city*            1 3    1.00   0.00      1    1.00   0.00    1     1     0  NaN
+## traffic_stops    2 3 9968.33 172.31   9915 9968.33 127.50 9829 10161   332 0.28
+## year             3 3 2001.00   1.00   2001 2001.00   1.48 2000  2002     2 0.00
+##               kurtosis    se
+## city*              NaN  0.00
+## traffic_stops    -2.33 99.48
+## year             -2.33  0.58
+## ------------------------------------------------------------ 
+## group: SF
+##               vars n mean      sd median trimmed    mad  min  max range  skew
+## city*            1 3    2    0.00      2       2   0.00    2    2     0   NaN
+## traffic_stops    2 3 8205 1211.34   8814    8205 262.42 6810 8991  2181 -0.38
+## year             3 3 2001    1.00   2001    2001   1.48 2000 2002     2  0.00
+##               kurtosis     se
+## city*              NaN   0.00
+## traffic_stops    -2.33 699.37
+## year             -2.33   0.58
+\end{verbatim}
+
+If you have multiple packages to install, consider vectorizing them.
+
+Alternatively, package managers such as
+\href{http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html}{pacman}
+provide increased and friendly usability.
+
+\begin{quote}
+NOTE: type no in your console and press the Return key if prompted with
+``Do you want to install from sources the package which needs
+compilation? (Yes/no/cancel)''. If asked to update packages, type 1 in
+your console and press the Return key unless you have specific
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Step 1. Install the files }
+\FunctionTok{install.packages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"psych"}\NormalTok{, }\StringTok{"tidyr"}\NormalTok{, }\StringTok{"dplyr"}\NormalTok{, }\StringTok{"ggplot2"}\NormalTok{, }\StringTok{"broom"}\NormalTok{, }\StringTok{"tidycensus"}\NormalTok{))}
+
+\CommentTok{\# Step 2. Import them to your current session}
+\FunctionTok{library}\NormalTok{(psych)}
+\FunctionTok{library}\NormalTok{(tidyr)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(broom)}
+\FunctionTok{library}\NormalTok{(tidycensus)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{import-data}{%
+\subsection{Import data}\label{import-data}}
+
+Import the Mesa, Arizona, USA, dataset from The Stanford Open Policing
+Project.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mesa }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/raw/az\_mesa\_2020\_04\_01.csv"}\NormalTok{, }
+                 \AttributeTok{stringsAsFactors =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(mesa)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    96621 obs. of  19 variables:
+##  $ raw_row_number     : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ date               : Factor w/ 1186 levels "2014-01-01","2014-01-02",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ time               : Factor w/ 1440 levels "00:00:00","00:01:00",..: 305 754 748 833 183 93 968 1078 90 474 ...
+##  $ location           : Factor w/ 10830 levels "#VALUE!, MESA",..: 7553 5263 5072 5372 3504 2212 2184 2184 3149 4202 ...
+##  $ lat                : num  33.4 33.4 33.4 33.4 33.4 ...
+##  $ lng                : num  -112 -112 -112 -112 -112 ...
+##  $ subject_age        : int  36 58 19 46 27 58 24 27 27 29 ...
+##  $ subject_race       : Factor w/ 6 levels "asian/pacific islander",..: 3 6 6 2 6 6 6 6 6 3 ...
+##  $ subject_sex        : Factor w/ 2 levels "female","male": 1 1 2 2 2 2 2 2 2 1 ...
+##  $ officer_id_hash    : Factor w/ 770 levels "0027657d5f","003bde5bfa",..: 637 677 226 529 272 272 754 754 128 146 ...
+##  $ type               : Factor w/ 2 levels "pedestrian","vehicular": NA 2 2 2 2 2 NA NA 2 2 ...
+##  $ violation          : Factor w/ 716 levels "2 OCCUPANTS UNDER 18 CLASS G LICENSE",..: 405 391 615 640 125 157 225 595 316 65 ...
+##  $ arrest_made        : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+##  $ citation_issued    : logi  TRUE TRUE TRUE TRUE TRUE TRUE ...
+##  $ warning_issued     : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+##  $ outcome            : Factor w/ 2 levels "arrest","citation": 2 2 2 2 2 2 1 1 2 2 ...
+##  $ raw_race_fixed     : Factor w/ 5 levels "A","B","I","U",..: 5 5 5 2 5 5 5 5 5 5 ...
+##  $ raw_ethnicity_fixed: Factor w/ 3 levels "H","N","U": 1 2 2 2 2 2 2 2 2 1 ...
+##  $ raw_charge         : Factor w/ 66 levels "-----","------",..: 33 9 32 7 5 5 4 6 44 32 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# view the first six rows by default}
+\FunctionTok{head}\NormalTok{(mesa)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   raw_row_number       date     time                    location      lat
+## 1              1 2014-01-01 05:04:00    700 E FRANKLIN AVE, MESA 33.40238
+## 2              2 2014-01-01 12:33:00        400 E BROWN RD, MESA 33.43558
+## 3              3 2014-01-01 12:27:00   3600 E SOUTHERN AVE, MESA 33.39370
+## 4              4 2014-01-01 13:52:00       400 N CENTER ST, MESA 33.42234
+## 5              5 2014-01-01 03:02:00 2100 W UNIVERSITY0 DR, MESA 33.42212
+## 6              6 2014-01-01 01:32:00      1600 S VAL VISTA, MESA 33.38605
+##         lng subject_age subject_race subject_sex officer_id_hash      type
+## 1 -111.8161          36     hispanic      female      d4eed1c4dc      <NA>
+## 2 -111.8227          58        white      female      e24408e0fd vehicular
+## 3 -111.7538          19        white        male      4ab12ca221 vehicular
+## 4 -111.8314          46        black        male      b1c5205466 vehicular
+## 5 -111.8764          27        white        male      5cbad8bdf3 vehicular
+## 6 -111.7540          58        white        male      5cbad8bdf3 vehicular
+##                                      violation arrest_made citation_issued
+## 1                      NOISE AFTER 10PM TO 6AM       FALSE            TRUE
+## 2                        NO PROOF OF INSURANCE       FALSE            TRUE
+## 3 SPEED NOT R&P/FTC SPEED TO AVOID A COLLISION       FALSE            TRUE
+## 4                             SUSP/REVOKED LIC       FALSE            TRUE
+## 5        DRIVE ON SUSPENDED OR REVOKED LICENSE       FALSE            TRUE
+## 6                         EXPIRED REGISTRATION       FALSE            TRUE
+##   warning_issued  outcome raw_race_fixed raw_ethnicity_fixed raw_charge
+## 1          FALSE citation              W                   H   ------A-
+## 2          FALSE citation              W                   N   -------C
+## 3          FALSE citation              W                   N    ------A
+## 4          FALSE citation              B                   N   -------B
+## 5          FALSE citation              W                   N   -------A
+## 6          FALSE citation              W                   N   -------A
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# count number of missing values}
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(mesa))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 13324
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# calculate proportion of missing data}
+\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(mesa))) }\SpecialCharTok{/}\NormalTok{ (}\FunctionTok{nrow}\NormalTok{(mesa) }\SpecialCharTok{*} \FunctionTok{ncol}\NormalTok{(mesa))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.007257875
+\end{verbatim}
+
+\hypertarget{wrangle}{%
+\subsection{Wrangle}\label{wrangle}}
+
+Subset only columns: date, subject\_race, subject\_sex, subject\_age,
+officer\_id\_hash, violation, arrest\_made
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{clean }\OtherTok{\textless{}{-}}\NormalTok{ mesa[, }\FunctionTok{c}\NormalTok{(}\StringTok{"date"}\NormalTok{, }\StringTok{"subject\_race"}\NormalTok{, }\StringTok{"subject\_sex"}\NormalTok{, }\StringTok{"subject\_age"}\NormalTok{, }\StringTok{"officer\_id\_hash"}\NormalTok{, }\StringTok{"violation"}\NormalTok{, }\StringTok{"arrest\_made"}\NormalTok{)]}
+\FunctionTok{str}\NormalTok{(clean)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    96621 obs. of  7 variables:
+##  $ date           : Factor w/ 1186 levels "2014-01-01","2014-01-02",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ subject_race   : Factor w/ 6 levels "asian/pacific islander",..: 3 6 6 2 6 6 6 6 6 3 ...
+##  $ subject_sex    : Factor w/ 2 levels "female","male": 1 1 2 2 2 2 2 2 2 1 ...
+##  $ subject_age    : int  36 58 19 46 27 58 24 27 27 29 ...
+##  $ officer_id_hash: Factor w/ 770 levels "0027657d5f","003bde5bfa",..: 637 677 226 529 272 272 754 754 128 146 ...
+##  $ violation      : Factor w/ 716 levels "2 OCCUPANTS UNDER 18 CLASS G LICENSE",..: 405 391 615 640 125 157 225 595 316 65 ...
+##  $ arrest_made    : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# or}
+
+\NormalTok{clean }\OtherTok{\textless{}{-}}\NormalTok{ mesa[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{12}\NormalTok{, }\DecValTok{13}\NormalTok{)]}
+\FunctionTok{str}\NormalTok{(clean)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    96621 obs. of  7 variables:
+##  $ date           : Factor w/ 1186 levels "2014-01-01","2014-01-02",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ subject_race   : Factor w/ 6 levels "asian/pacific islander",..: 3 6 6 2 6 6 6 6 6 3 ...
+##  $ subject_sex    : Factor w/ 2 levels "female","male": 1 1 2 2 2 2 2 2 2 1 ...
+##  $ subject_age    : int  36 58 19 46 27 58 24 27 27 29 ...
+##  $ officer_id_hash: Factor w/ 770 levels "0027657d5f","003bde5bfa",..: 637 677 226 529 272 272 754 754 128 146 ...
+##  $ violation      : Factor w/ 716 levels "2 OCCUPANTS UNDER 18 CLASS G LICENSE",..: 405 391 615 640 125 157 225 595 316 65 ...
+##  $ arrest_made    : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+\end{verbatim}
+
+\hypertarget{summarize}{%
+\subsection{Summarize}\label{summarize}}
+
+Get some quick facts about your data with the below functions
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Tabulate frequencies of a single variable }
+\FunctionTok{table}\NormalTok{(clean}\SpecialCharTok{$}\NormalTok{subject\_race)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## asian/pacific islander                  black               hispanic 
+##                   1278                   6459                  16626 
+##                  other                unknown                  white 
+##                   2305                   7092                  62861
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(clean}\SpecialCharTok{$}\NormalTok{arrest\_made)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## FALSE  TRUE 
+## 95113  1508
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Compute crosstabs}
+\FunctionTok{table}\NormalTok{(clean}\SpecialCharTok{$}\NormalTok{subject\_race, clean}\SpecialCharTok{$}\NormalTok{arrest\_made)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                         
+##                          FALSE  TRUE
+##   asian/pacific islander  1268    10
+##   black                   6255   204
+##   hispanic               16181   445
+##   other                   2183   122
+##   unknown                 7088     4
+##   white                  62138   723
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Produce summary statistics}
+\CommentTok{\# Six number summaries (minimum and maximum values, 1st and 3rd quartile boundaries, median, and mean) are returned for quantitative variables (i.e., subject\_age)}
+\CommentTok{\# Frequencies are returned for non quantitative variables (all other columns)}
+\FunctionTok{summary}\NormalTok{(clean)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          date                       subject_race   subject_sex   
+##  2015-05-28:  224   asian/pacific islander: 1278   female:39083  
+##  2017-03-30:  212   black                 : 6459   male  :56248  
+##  2015-08-20:  202   hispanic              :16626   NA's  : 1290  
+##  2015-05-19:  197   other                 : 2305                 
+##  2015-03-02:  188   unknown               : 7092                 
+##  2015-04-16:  186   white                 :62861                 
+##  (Other)   :95412                                                
+##   subject_age      officer_id_hash 
+##  Min.   :10.00   cb50401ff4: 3563  
+##  1st Qu.:25.00   2ea1bea91b: 2599  
+##  Median :34.00   aea894f584: 2594  
+##  Mean   :37.41   cf084c69a3: 2571  
+##  3rd Qu.:47.00   29dac4e72e: 2550  
+##  Max.   :99.00   96fcddf228: 2467  
+##  NA's   :1448    (Other)   :80277  
+##                                         violation     arrest_made    
+##  SPEED NOT R&P/FTC SPEED TO AVOID A COLLISION:30021   Mode :logical  
+##  EXPIRED REGISTRATION                        : 6622   FALSE:95113    
+##  NO PROOF OF INSURANCE                       : 4547   TRUE :1508     
+##  M / I SUSPENSION REGISTRATION               : 3624                  
+##  NO VALID DRIVERS LICENSE - IN/OUT OF STATE  : 3548                  
+##  (Other)                                     :48211                  
+##  NA's                                        :   48
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# use the describeBy() function from the psych package}
+\CommentTok{\# by sex}
+\NormalTok{summary\_sex }\OtherTok{\textless{}{-}} \FunctionTok{describeBy}\NormalTok{(clean, }\AttributeTok{group =}\NormalTok{ clean}\SpecialCharTok{$}\NormalTok{subject\_sex)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in FUN(newX[, i], ...): no non-missing arguments to min; returning Inf
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in FUN(newX[, i], ...): no non-missing arguments to max; returning -Inf
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in FUN(newX[, i], ...): no non-missing arguments to min; returning Inf
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in FUN(newX[, i], ...): no non-missing arguments to max; returning -Inf
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{summary\_sex}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Descriptive statistics by group 
+## group: female
+##                  vars     n   mean     sd median trimmed    mad min  max range
+## date*               1 39083 565.99 331.20    558  560.09 389.92   1 1186  1185
+## subject_race*       2 39083   5.10   1.45      6    5.36   0.00   1    6     5
+## subject_sex*        3 39083   1.00   0.00      1    1.00   0.00   1    1     0
+## subject_age         4 38960  37.69  15.45     34   36.10  14.83  14   99    85
+## officer_id_hash*    5 39083 405.43 227.91    434  410.13 289.11   1  770   769
+## violation*          6 39063 432.55 196.65    451  446.29 243.15   1  716   715
+## arrest_made         7 39083    NaN     NA     NA     NaN     NA Inf -Inf  -Inf
+##                   skew kurtosis   se
+## date*             0.12    -1.01 1.68
+## subject_race*    -1.24    -0.01 0.01
+## subject_sex*       NaN      NaN 0.00
+## subject_age       0.85     0.18 0.08
+## officer_id_hash* -0.14    -1.32 1.15
+## violation*       -0.39    -1.32 0.99
+## arrest_made         NA       NA   NA
+## ------------------------------------------------------------ 
+## group: male
+##                  vars     n   mean     sd median trimmed    mad min  max range
+## date*               1 56248 557.91 331.74    548  550.68 392.89   1 1186  1185
+## subject_race*       2 56248   4.98   1.51      6    5.22   0.00   1    6     5
+## subject_sex*        3 56248   2.00   0.00      2    2.00   0.00   2    2     0
+## subject_age         4 56101  37.20  15.47     34   35.58  16.31  10   99    89
+## officer_id_hash*    5 56248 400.74 226.67    432  404.40 286.14   1  770   769
+## violation*          6 56220 408.29 203.45    392  419.45 330.62   1  711   710
+## arrest_made         7 56248    NaN     NA     NA     NaN     NA Inf -Inf  -Inf
+##                   skew kurtosis   se
+## date*             0.14    -1.02 1.40
+## subject_race*    -1.03    -0.57 0.01
+## subject_sex*       NaN      NaN 0.00
+## subject_age       0.85     0.10 0.07
+## officer_id_hash* -0.10    -1.31 0.96
+## violation*       -0.26    -1.37 0.86
+## arrest_made         NA       NA   NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Or, just access the female data, and subset just subject\_age and columns 3 and 4 (mean and sd)}
+\NormalTok{mesa\_female }\OtherTok{\textless{}{-}}\NormalTok{ summary\_sex}\SpecialCharTok{$}\NormalTok{female[}\StringTok{"subject\_age"}\NormalTok{ ,}\DecValTok{3}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}
+\NormalTok{mesa\_female}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              mean    sd
+## subject_age 37.69 15.45
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# or}
+\NormalTok{mesa\_female }\OtherTok{\textless{}{-}}\NormalTok{ summary\_sex}\SpecialCharTok{$}\NormalTok{female[}\StringTok{"subject\_age"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"mean"}\NormalTok{, }\StringTok{"sd"}\NormalTok{)]}
+\NormalTok{mesa\_female}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              mean    sd
+## subject_age 37.69 15.45
+\end{verbatim}
+
+\hypertarget{visualize}{%
+\subsection{Visualize}\label{visualize}}
+
+Perhaps there are differences in sex, race, and age within our data.
+Let's eyeball it to find out!
+
+A histogram can be used to view the distribution of one variable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(clean}\SpecialCharTok{$}\NormalTok{subject\_age)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Yen_Part1_files/figure-latex/unnamed-chunk-32-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(clean}\SpecialCharTok{$}\NormalTok{subject\_age, }
+     \AttributeTok{breaks =} \DecValTok{5}\NormalTok{, }
+     \AttributeTok{main =} \StringTok{"Include a title"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Yen_Part1_files/figure-latex/unnamed-chunk-32-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(clean}\SpecialCharTok{$}\NormalTok{subject\_age, }
+     \AttributeTok{breaks =} \DecValTok{50}\NormalTok{, }
+     \AttributeTok{col =} \StringTok{"gray80"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Age distribution of Mesa, AZ USA traffic stops}\SpecialCharTok{\textbackslash{}n}\StringTok{ December 2{-}13 {-} March 2017"}\NormalTok{,}
+     \AttributeTok{xlab =} \StringTok{"Driver Age"}\NormalTok{,}
+     \AttributeTok{ylab =} \StringTok{"Frequency"}\NormalTok{, }
+     \AttributeTok{las =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Yen_Part1_files/figure-latex/unnamed-chunk-32-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Type colors() to see the 657 stock colors available }
+\CommentTok{\# colors()}
+\end{Highlighting}
+\end{Shaded}
+
+The data are positively skewed and we know from our summary statistics
+that the mean is \textasciitilde37 years old and is widely dispersed.
+
+Boxplots can be used similarly to histograms to view the distribution of
+one variable, but we can conveniently plot categorical groupings side by
+side for interpretation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# subject\_sex}
+\FunctionTok{boxplot}\NormalTok{(clean}\SpecialCharTok{$}\NormalTok{subject\_age }\SpecialCharTok{\textasciitilde{}}\NormalTok{ clean}\SpecialCharTok{$}\NormalTok{subject\_sex)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Yen_Part1_files/figure-latex/unnamed-chunk-33-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# subject\_race}
+\FunctionTok{boxplot}\NormalTok{(clean}\SpecialCharTok{$}\NormalTok{subject\_age }\SpecialCharTok{\textasciitilde{}}\NormalTok{ clean}\SpecialCharTok{$}\NormalTok{subject\_race)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Yen_Part1_files/figure-latex/unnamed-chunk-33-2.pdf}
+
+\hypertarget{analyze}{%
+\subsection{Analyze}\label{analyze}}
+
+We can now ask a question such as: are there statistically significant
+differences in arrests made by race? Something like a one-way analysis
+of variance (ANOVA) model can help us understand.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{aov\_race }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(clean}\SpecialCharTok{$}\NormalTok{arrest\_made }\SpecialCharTok{\textasciitilde{}}\NormalTok{ clean}\SpecialCharTok{$}\NormalTok{subject\_race)}
+\FunctionTok{summary}\NormalTok{(aov\_race)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                       Df Sum Sq Mean Sq F value Pr(>F)    
+## clean$subject_race     5    9.7  1.9342   126.7 <2e-16 ***
+## Residuals          96615 1474.8  0.0153                   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+This p-value indicates that there are statistically significant
+differences by race. But, how do we know between which groups? We can
+use a post-hoc test to find out the pairwise differences, along with
+adjusted p-values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{TukeyHSD}\NormalTok{(aov\_race)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = clean$arrest_made ~ clean$subject_race)
+## 
+## $`clean$subject_race`
+##                                         diff          lwr           upr
+## black-asian/pacific islander     0.023759110  0.012980037  0.0345381842
+## hispanic-asian/pacific islander  0.018940581  0.008720392  0.0291607704
+## other-asian/pacific islander     0.045103690  0.032824613  0.0573827675
+## unknown-asian/pacific islander  -0.007260710 -0.017960030  0.0034386091
+## white-asian/pacific islander     0.003676841 -0.006271445  0.0136251263
+## hispanic-black                  -0.004818529 -0.009980691  0.0003436328
+## other-black                      0.021344580  0.012802251  0.0298869090
+## unknown-black                   -0.031019821 -0.037075486 -0.0249641551
+## white-black                     -0.020082270 -0.024682708 -0.0154818313
+## other-hispanic                   0.026163109  0.018337816  0.0339884027
+## unknown-hispanic                -0.026201292 -0.031194779 -0.0212078037
+## white-hispanic                  -0.015263740 -0.018334224 -0.0121932571
+## unknown-other                   -0.052364401 -0.060805869 -0.0439229322
+## white-other                     -0.041426850 -0.048893531 -0.0339601678
+## white-unknown                    0.010937551  0.006527218  0.0153478842
+##                                     p adj
+## black-asian/pacific islander    0.0000000
+## hispanic-asian/pacific islander 0.0000019
+## other-asian/pacific islander    0.0000000
+## unknown-asian/pacific islander  0.3812921
+## white-asian/pacific islander    0.8996599
+## hispanic-black                  0.0834401
+## other-black                     0.0000000
+## unknown-black                   0.0000000
+## white-black                     0.0000000
+## other-hispanic                  0.0000000
+## unknown-hispanic                0.0000000
+## white-hispanic                  0.0000000
+## unknown-other                   0.0000000
+## white-other                     0.0000000
+## white-unknown                   0.0000000
+\end{verbatim}
+
+Read the du Prel et al.~article ``Confidence Interval or P-Value''
+linked in the README file to learn more about hypothesis testing, point
+estimations, and confidence in analysis.
+
+\hypertarget{interpret}{%
+\subsection{Interpret}\label{interpret}}
+
+Results of a one-way ANOVA could be interpreted to suggest that white
+drivers are stopped less than all other groups. Why might this be true?
+Is there bias in our data? Do sample size differences influence the
+results? Did we violate any
+\href{http://www.sthda.com/english/wiki/one-way-anova-test-in-r}{assumptions}
+of the test? Would a non-parametric alternative such as
+\texttt{kruskal.test()} be more appropriate? These are the tough
+questions that are up to the researcher to investigate.
+
+\hypertarget{save-your-work}{%
+\section{Save your work}\label{save-your-work}}
+
+\begin{quote}
+BINDER USERS! CLick the ``More'' button on the ``Files'' tab in Binder,
+and then select ``Export'' to download files or folders to your
+computer. Screenshot below:
+\end{quote}
+
+\begin{figure}
+\centering
+\includegraphics{img/binder_export.png}
+\caption{binder\_export}
+\end{figure}
+
+There are many ways to import and export data in R.
+
+We can save datasets and tables we create with the \texttt{write.csv()}
+function. The first argument is the variable name, the second argument
+is the file path/name.
+
+\begin{quote}
+Note that we save this in the ``preprocessed'' data subfolder, and could
+even save it in a separate directory named ``Tables'' or something like
+that.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{write.csv}\NormalTok{(police, }\AttributeTok{file =} \StringTok{"data/preprocessed/police.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Where does it save? Use \texttt{getwd()} to find out. Also check out the
+\href{https://cran.r-project.org/web/packages/here/vignettes/here.html}{here
+R package vignette} to learn more efficient ways of structuring and
+understanding
+
+We specified the ``data'' --\textgreater{} ``preprocessed'' folder of
+the parent directory ``sicss-howard-mathematica-R-2022'' folder.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{getwd}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "C:/Users/BJY/OneDrive - Indiana University/@ IU 2022 Summer/Mathematica_Howard/sicss-howard-mathematica-R-2022"
+\end{verbatim}
+
+We can also use the \texttt{save()} function to save variables in an
+.RData file for easy loadindg in the next lesson. Save only the
+\texttt{clean} dataset like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{save}\NormalTok{(clean, }\AttributeTok{file =} \StringTok{"data/preprocessed/clean.RData"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{a-note-on-computational-reproducibility}{%
+\section{A note on computational
+reproducibility}\label{a-note-on-computational-reproducibility}}
+
+``Reproducible'' research is a term often discussed but rarely
+understood. It is something you want to build into your research design
+very early on! As a project nears completion, it is very difficult to
+make it reproducible in retrospect. Ask me if you want to learn more!
+
+\begin{itemize}
+\item
+  Replication = code + data
+\item
+  Computational reproduciblity = code + data + environment +
+  distribution
+\item
+  Reproducibility checklist by
+  \href{http://www.biostat.jhsph.edu/~rpeng/}{Roger Peng}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \item
+    Start with science (avoid vague questions and concepts)
+  \item
+    Don't do things by hand (not only about automation but also
+    documentation)
+  \item
+    Don't point and click (same problem)
+  \item
+    Teach a computer (automation also solves documentation to some
+    extent)
+  \item
+    Use some version control
+  \item
+    Don't save output (instead, keep the input and code)
+  \item
+    Set your seed
+  \item
+    Think about the entire pipeline
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{challenge---workflows}{%
+\section{Challenge - workflows}\label{challenge---workflows}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Reproduce the above workflow using the dataset
+  ``ca\_oakland\_2020\_04\_01 2.csv''.
+\item
+  Ask the question: how does the distribution of arrests vary by race?
+  Hint: use a barplot (you might have to generate frequencies first to
+  make the barplot!).
+\item
+  Save the ``ca\_oakland\_2020\_04\_01 2.csv'' dataset in a variable
+  named oak. Use the \texttt{save()} function to save it in a file name
+  ``oak.csv'' in the ``data/preprocessed'' folder.
+\item
+  Advanced: Use ggplot2 to make the barplot.
+\end{enumerate}
+
+What other statistical applications might be useful?
+
+\end{document}
