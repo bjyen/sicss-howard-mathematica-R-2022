@@ -1,0 +1,1149 @@
+---
+title: 'Part2 - sicss-howard-mathematica-R-2022'
+author: "Evan Muzzall, SSDS, Stanford University, https://ssds.stanford.edu/"
+date: "18 June 2022"
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+---
+
+Import libraries
+
+```{r}
+library(tidyr)      # for reshaping data
+library(readr)      # parse_number example
+library(dplyr)      # data wrangling/manipulation
+library(ggplot2)    # visualization
+library(gapminder)  # gapminder dataset
+library(ggthemes)   # additional themes for ggplot2
+library(ggrepel)    # helper package for ggplot2
+library(kableExtra) # produce publication-ready tables
+library(flextable)  # produce publication-ready tables
+library(purrr)      # map function
+library(broom)      # tidy approach to statistical modeling
+```
+
+
+# The tidyverse approach: Reshaping data with `tidyr` functions
+
+In contrast to Part 1, data are not always nicely formatted for exploration and analysis. This means that before we clean and subet data, we actually have to reshape it first. We often want the format to be [tidy](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html), which makes the data ready for summarization, visualization, and analysis. Check out the [Carpentries lesson on data formats to learn more](https://swcarpentry.github.io/r-novice-gapminder/14-tidyr/index.html). 
+
+Signs of messy datasets
+- Column headers are values, not variable names.
+- Multiple variables are not stored in one column.
+- Variables are stored in both rows and columns.
+- Multiple types of observational units are stored in the same table.
+- A single observational unit is stored in multiple tables.
+
+Let’s take a look at the cases of untidy data.
+
+## Pipes
+
+To utilize the power of the tidyverse, we will speak a slightly different dialect of R that uses pipes. "Pipes are a powerful tool for clearly expressing a sequence of multiple operations." (Check out [Chapter 18 in Wickham's R for Data Science book](https://r4ds.had.co.nz/pipes.html) to learn more). 
+
+The pipe operator `%>%` originally comes from the `magrittr` package. The idea behind the pipe operator is [similar to](https://www.datacamp.com/community/tutorials/pipe-r-tutorial) what we learned about chaining functions in high school. f: B -> C and g: A -> B can be expressed as $f(g(x))$. The pipe operator chains operations. When you read pipe operator, read as "and then" (Wickham's recommendation). The keyboard shortcut is ctrl + shift + M. The key idea here is not creating temporary variables and focusing on verbs (functions). 
+
+# We'll learn more about this functional programming paradigm later on. (double check)
+
+Pipes permit the user to accomplish more complex, and more varieties of, tasks in a more understandable way because the code can simply be read from left to right. The pipe takes the thing to the left of the pipe and "pipes" it into whatever is to the right of the pipe. This can continue in perpetuity until the task is accomplished. 
+
+![Concept map for pipe operator. By Jeroen Janssens, Monica Alonso.](https://education.rstudio.com/blog/2020/09/concept-maps/pipe-operator.png)
+
+We will use pipes look at two main functions to reshape data: 
+- `pivot_longer()` increases the number of rows (longer) and decreases the number of columns. The inverse function is 
+- `pivot_wider()`. These functions improve the usability of gather() and spread(), which are now deprecated.
+
+Two main differences between `pivot_longer()` and `pivot_wider()`:
+- In `pivot_longer()`, the arguments are named `names_to` and `values_to` (*to*).
+- In `pivot_wider()`, this pattern is opposite. The arguments are named `names_from` and `values_from` (*from*).
+- The number of required arguments for `pivot_longer()` is 3 (col, names\_to, values\_to).
+- The number of required arguments for `pivot_wider()` is 2 (names\_from, values\_from).
+
+## `pivot_longer()` - make it longer!
+
+![What pivot\_longer() does (Source: <https://www.storybench.org>)](https://www.storybench.org/wp-content/uploads/2019/08/pivot-longer-image.png)
+
+Let's take a look at some cases of untidy data.
+
+![Messy Data Case 1 (Source: R for Data Science)](https://garrettgman.github.io/images/tidy-5.png)
+
+- Make It Longer
+
+    | Col1 | Col2 | Col3 |
+    |------|------|------|
+    |      |      |      |
+    |      |      |      |
+    |      |      |      |
+
+# Challenge - messy data
+
+1. Why are these data not tidy?
+
+```{r}
+table4a
+# ?table4a
+```
+
+Let's pivot (rotate by 90 degrees).
+
+![Concept map for pivoting. By Florian Schmoll, Monica Alonso.](https://github.com/rstudio/concept-maps/raw/master/en/pivoting.svg)
+
+Wha does `pivot_longer()` look like?
+
+![What pivot\_longer() does (Source: <https://www.storybench.org>)](https://www.storybench.org/wp-content/uploads/2019/08/pivot-longer-image.png)
+
+```{r}
+ready_4a <- table4a %>%
+  pivot_longer(
+    cols = c("1999", "2000"), # Selected columns
+    names_to = "year", # Shorter columns (the columns going to be in one column called year)
+    values_to = "cases"
+  ) # Longer rows (the values are going to be in a separate column called named cases)
+ready_4a
+str(ready_4a)
+```
+
+- There's another problem, did you catch it?
+- The data type of `year` variable should be `numeric` not `character`. By default, `pivot_longer()` transforms uninformative columns to character.
+- You can fix this problem by using `names_transform` argument.
+
+```{r}
+ready4a <- table4a %>%
+  pivot_longer(
+    cols = c("1999", "2000"), # Put two columns together
+    names_to = "year", # Shorter columns (the columns going to be in one column called year)
+    values_to = "cases", # Longer rows (the values are going to be in a separate column called named cases)
+    names_transform = list(year = readr::parse_number)
+  ) # Transform the variable
+ready4a
+str(ready4a)
+```
+
+> Note the style of `readr::parse_number`. This is called namespace resolution and is represented as `package_name::function_name`. This is a good habit to get into because you can always be explicit about which function you are using from which library!
+
+**Additional tips**
+
+`parse_number()` also keeps only numeric information in a variable.
+
+```{r}
+# old way to call functions from libraries
+library(readr)
+parse_number("reply1994")
+```
+
+A flat file (e.g., CSV) is a rectangular shaped combination of strings. [Parsing](https://cran.r-project.org/web/packages/readr/vignettes/readr.html) determines the type of each column and turns into a vector of a more specific type. Tidyverse has `parse_` functions (from `readr` package) that are flexible and fast (e.g., `parse_integer()`, `parse_double()`, `parse_logical()`, `parse_datetime()`, `parse_date()`, `parse_time()`, `parse_factor()`, etc).
+
+# Challenge - `pivot_longer()`
+
+1.  Why is this data not tidy? (This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).) Too long or too wide?
+
+```{r}
+billboard
+```
+
+2.  How can you fix it? Which pivot?
+
+```{r}
+billboard_ready <- billboard %>%
+  pivot_longer(
+    cols = starts_with("wk"), # Use regular expressions
+    names_to = "week",
+    values_to = "rank",
+    values_drop_na = TRUE # Drop NAs
+)
+billboard_ready
+```
+
+## `pivot_wider()` - make it wider!
+
+Why is this data not tidy?
+
+```{r}
+table2
+```
+
+- Each observation is spread across two rows.
+
+![What pivot\_wider() does (Source: <https://www.storybench.org>)](https://www.storybench.org/wp-content/uploads/2019/08/pivot-wider-image.png)
+
+```{r}
+table2_ready <- table2 %>%
+  pivot_wider(
+    names_from = type, # first
+    values_from = count # second
+  )
+table2_ready
+```
+
+## Missing values
+
+Sometimes, a consultee asks: "I don't have missing values in my original dataframe. Then R said that I have missing values after I've done some data transformations. What happened?"
+
+Here's an answer.
+
+R defines missing values in two ways.
+- **Implicit missing values"** simply not present in the data.
+- ***Explicit missing values:** flagged with NA
+
+# Challenge - explicit and implicit missing values
+
+1 This example comes from [*R for Data Science*](https://r4ds.had.co.nz/tidy-data.html). Where is the explicit missing value? 
+
+```{r}
+stocks <- tibble(
+  year = c(2019, 2019, 2019, 2020, 2020, 2020),
+  qtr = c(1, 2, 3, 2, 3, 4),
+  return = c(1, 2, 3, NA, 2, 3)
+)
+stocks
+```
+
+Use `pivot_wider()` to widen the `stocks` dataframe into a datafrme named `stocks_wide`. Does `stocks_wide` have implicit missing values?
+
+```{r}
+## YOUR CODE HERE
+
+
+
+
+
+
+```
+
+# Wrangling and manipulating data with the `dplyr` package
+
+Essentially, once data in the tidy format you can then wrangle and manipulate it. Remember those somewhat clumsy and repetitive  operations we performed in Part 1? 
+
+This time we can use `dplyr` to expedite the data wrangling and manipulation process. For brevity's sake, let's load our clean Mesa, Arizona USA data that we saved at the end of Part 1.
+
+```{r}
+load("data/preprocessed/clean.RData")
+str(clean)
+```
+
+## `arrange()`
+
+Sort values in ascending or descending order.
+
+```{r}
+head(dplyr::arrange(clean, subject_age)) # Low to high (default))
+head(dplyr::arrange(clean, desc(subject_age))) # High to low 
+
+# or, use the minus symbol to specify descending order
+head(dplyr::arrange(clean, -subject_age)) # Also high to low 
+```
+
+## `rename()` 
+
+Change column names. 
+
+```{r}
+names(clean)
+clean <- clean %>%
+  rename(
+    race = # NEW name
+    subject_race,  # OLD name
+    sex = subject_sex, 
+    age = subject_age
+  ) # OLD name
+names(clean)
+```
+
+## `filter()` 
+
+Subset rows (single condition)
+
+```{r}
+female_drivers <- clean %>%
+  filter(sex == "female") %>%
+  arrange(age)
+head(female_drivers)
+```
+
+Subset rows (multiple conditions)
+
+```{r}
+old_males <- clean %>%
+  filter(sex == "male", age > 90) %>%
+  arrange(-age)
+head(old_males)
+```
+
+# Challenge - `filter()`
+
+1. Use `filter(between())` to subset a dataframe that contains only drivers between the ages of 10 and 13. 
+
+```{r}
+## YOUR CODE HERE
+
+
+
+
+
+```
+
+## `select()` 
+
+Subset columns. 
+
+Select one or more columns (just "date" and "arrest_made").
+
+```{r}
+sub1 <- clean %>%
+  select("date", "arrest_made")
+head(sub1)
+```
+
+Select only numeric (or integer) columns
+
+```{r}
+sub2 <- clean %>%
+  dplyr::select(where(is.numeric))
+head(sub2)
+```
+
+Select columns that contains the letter "s"
+
+```{r}
+sub3 <- clean %>%
+  dplyr::select(contains("s"))
+head(sub3)
+```
+
+Select columns that start with the letter "a"
+
+```{r}
+sub4 <- clean %>%
+  dplyr::select(starts_with("a"))
+head(sub4)
+```
+
+Create a new column
+
+```{r}
+# the base R way
+clean$new_col_name <- clean$age / 10
+head(clean)
+
+# the dplyr way
+clean <- clean %>%
+  mutate(new_dplyr = age * 10)
+head(clean)
+```
+
+Delete columns
+
+```{r}
+clean$new_col_name <- NULL
+head(clean)
+clean$new_dplyr <- NULL
+head(clean)
+```
+
+## `count()`
+
+Count how many...
+
+```{r}
+sub5 <- clean %>%
+  count(sex, sort = TRUE)
+sub5
+```
+
+## `group_by()` 
+
+Perform grouping operation before including another operation
+
+```{r}
+sexes <- clean %>%
+  group_by(sex) %>%
+  count()
+sexes
+```
+
+## `summarize()`
+
+Create a new tibble with summary information. Calculate the average age of drivers by sex
+
+```{r}
+sexes_age <- clean %>%
+  group_by(sex) %>%
+  # the text to the left of the equals sign is the new column name (avg_age)
+  # the operation to the right performs the function (the average/mean)
+  summarize(avg_age = mean(age, na.rm = TRUE))
+sexes_age
+```
+
+Summarize by multiple conditions
+
+```{r}
+sexes_age_race <- clean %>%
+  group_by(sex, race) %>%
+  summarize(avg_age = mean(age, na.rm = TRUE))
+sexes_age_race
+```
+
+Include mutiple computations
+
+```{r}
+sexes_age_race <- clean %>%
+  group_by(sex, race) %>%
+  summarize(avg_age = mean(age, na.rm = TRUE), 
+            count = n())
+sexes_age_race
+```
+
+## `mutate()` 
+
+Add a new column to an existing data frame with `mutate()`
+
+Use `case_when()` like an extension of `ifelse()` in base R: https://dplyr.tidyverse.org/reference/case_when.html
+
+```{r}
+clean <- clean %>%
+  mutate(agegroup = case_when(age >= 80 ~ "Elderly",
+                              age >= 18 ~ "Adult", 
+                              age < 18 ~ "Adolescent"))
+head(clean)
+table(clean$agegroup)
+```
+
+Or, add a simpler computation
+
+```{r}
+clean <- clean %>%
+  group_by(sex) %>%
+  mutate(avg_age = mean(age, na.rm = TRUE))
+head(clean)
+```
+
+## Create publishable ready tables
+
+```{r eval = F}
+# for HTML and LaTeX
+sexes_age_race %>% kableExtra::kable()
+
+# for HTML and MS Office Suite
+sexes_age_race %>% flextable::flextable()
+```
+
+# Challenge - combining `group_by()` and `summarize()`
+
+1. Create a new tibble that contains average age and standard deviation by sex and arrest made. 
+
+```{r}
+## YOUR CODE HERE
+
+
+
+
+```
+
+# Data visualization with `ggplot2`
+
+- The following material is adapted from Kieran Healy's excellent book (2019) on [data visualization](https://socviz.co/) and Hadley Wickham's equally excellent book on [ggplot2](https://ggplot2-book.org/). For more theoretical discussions, I recommend you to read [The Grammar of Graphics](https://link.springer.com/book/10.1007%2F0-387-28695-0) by Leland Wilkinson.
+
+- Why should we care about data visualization? More precisely, why should we learn the grammar of statistical graphics?
+- Sometimes, pictures are better tools than words in 1) exploring, 2) understanding, and 3) explaining data.
+
+## Anscombe's quartet motivating example
+
+[Anscombe](https://en.wikipedia.org/wiki/Frank_Anscombe)'s quartet consists of four datasets, which are very similar in terms of their descriptive statistical properties (mean, variance, correlation, regression line, etc.) but are quite different when presented visually. 
+
+```{r}
+# Set a ggplot2 theme to get rid of the default gray background
+theme_set(theme_minimal())
+```
+
+View the data
+
+```{r}
+anscombe
+
+# View correlations between x and y variables
+cor(anscombe)[c(1:4), c(5:8)]
+```
+
+process the data, then plot. A little code can go a long way! 
+
+```{r}
+anscombe_processed <- anscombe %>%
+  tidyr::gather(x_name, x_value, x1:x4) %>%
+  tidyr::gather(y_name, y_value, y1:y4)
+head(anscombe_processed)
+
+# plot
+# dont worry, we will cover what these different aspects of the grammar of graphic mean!
+# also note that we can pipe directly into ggplot! More on this below.
+anscombe_processed %>%
+  ggplot(aes(x = x_value, y = y_value)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE) +
+  facet_grid(x_name ~ y_name) +
+  theme_bw() +
+  labs(
+    x = "X values",
+    y = "Y values",
+    title = "Anscombe's quartet"
+  )
+```
+
+## The grammar of graphics 
+
+The  grammar of graphics is comprised of several themes. Remember to see the Wilke textbook linked in the readme file for gentle introductions. 
+
+    - data
+    - aesthetic attributes (color, shape, size)
+    - geometric objects (points, lines, bars)
+    - stats (summary stats)
+    - scales (map values in the data space)
+    - coord (data coordinates)
+    - facet (facetting specifications)
+    
+## Mapping 
+
+To map something means to link a variable with something you can see on a plot. 
+
+- `aes` (aesthetic mappings or aesthetics) tells which variables (x, y) in your data should be represented by which visual elements (color, shape, size) in the plot.
+- `geom_` tells the type of plot you are going to use (histogram, boxplots, scatterplot, etc.)
+
+Produce the base layer. We have not yet specified a geom, so no data appear on the plot. Let's look at a scatterplot (i.e., a visualization of two continuous varialbes - one on the x-axis and one on the y-axis) to see how these mapping pieces work. 
+
+Each layer is joined by a plus symbol `+`
+
+```{r}
+# scatterplot example
+p <- ggplot(
+  data = gapminder,
+  mapping = aes(x = gdpPercap, y = lifeExp)) 
+p
+
+# specify points as our geom, i.e., a scatterplot
+p + geom_point()
+
+# geom_smooth has calculated a smoothed line
+# the shaded area is the standard error for the line
+p + geom_point() + 
+  geom_smooth() 
+```
+
+## Histogram 
+
+Plot a single variable's distribution.
+
+`geom_histogram()`: For the probability distribution of a continuous variable. Bins divide the entire range of values into a series of intervals (see [the Wiki entry](https://en.wikipedia.org/wiki/Histogram)). 
+
+
+```{r}
+data(midwest) # load midwest dataset
+midwest
+```
+
+```{r}
+midwest %>%
+  ggplot(aes(x = area)) +
+  # the stat_bin argument picks up 30 bins (or "buckets") by default.
+  geom_histogram() 
+
+midwest %>%
+  ggplot(aes(x = area)) +
+  # only 10 bins
+  geom_histogram(bins = 10)
+```
+
+We can also directly pass in a subsetted dataset as the argument to the `data = ` parameter
+
+```{r}
+# subset just Ohio and Indiana
+ggplot(
+  data = subset(midwest, state %in% c("OH", "IN")),
+  mapping = aes(x = percollege, fill = state)
+) +
+  # alpha adjusts the transparency
+  geom_histogram(alpha = 0.7, bins = 20) +
+  scale_fill_viridis_d()
+```
+
+## Size and color
+
+There's also `fill` argument (mostly used in `geom_bar()`). Color `aes` affects the appearance of lines and points, fill is for the filled areas of bars, polygons, and in some cases, the interior of a smoother's standard error ribbon.
+
+Create a scatterplot with gdpPercap on the x-axis, lifeExp on the y-axis, and map point size to population size.
+
+```{r}
+ggplot(
+  data = gapminder,
+  mapping = aes(
+    x = gdpPercap, y = lifeExp,
+    size = pop
+  )
+) +
+  geom_point()
+```
+
+Add the color mapping and a viridis scale to make the plot more interpretable. 
+
+```{r}
+ggplot(
+  data = gapminder,
+  mapping = aes(
+    x = gdpPercap, y = lifeExp,
+    size = pop,
+    color = continent
+  )
+) +
+  geom_point() +
+  scale_color_viridis_d()
+```
+
+Aesthetics also can be mapped per geom. 
+
+```{r}
+p + geom_point() +
+  geom_smooth()
+
+p + geom_point(alpha = 0.2) + 
+  # color only the line red
+  geom_smooth(color = "red", se = FALSE, size = 2, method = "loess") 
+```
+
+Notice the different behavior based on where color is defined...
+
+```{r}
+ggplot(
+  data = gapminder,
+  mapping = aes(
+    x = gdpPercap, y = lifeExp,
+    color = continent # color in the global mapping is different from...
+  )
+) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "loess", color = "red") + # ... color in geom_smooth 
+  labs(
+    x = "log GDP",
+    y = "Life Expectancy",
+    title = "A Gapminder Plot",
+    subtitle = "Data points are country-years",
+    caption = "Source: Gapminder"
+  )
+```
+
+## Coordinates and scales 
+
+Coordinates can be flipped
+
+```{r}
+p + geom_point() +
+  coord_flip() # coord_type
+```
+
+The data is heavily bunched up against the left side. 
+
+```{r}
+p + geom_point() # without scaling
+
+p + geom_point() +
+  # log 10 transform the x-axis
+  scale_x_log10() + 
+  geom_smooth(method = "lm", color = "green")
+```
+
+## Labels and guides 
+
+`scales` package has some useful premade formatting functions. You can either load scales or just grab the function you need from the library using `scales::` 
+
+Refer back to the `p` base layer
+
+```{r}
+p
+
+p + geom_point(alpha = 0.3) +
+  geom_smooth(method = "loess", color = "red") +
+  scale_x_log10(labels = scales::dollar) +
+  labs(
+    x = "log GDP",
+    y = "Life Expectancy",
+    title = "A Gapminder Plot",
+    subtitle = "Data points are country-years",
+    caption = "Source: Gapminder"
+  )
+```
+
+## Themes and ggsave
+
+Also note the handy "Export" button on your plotting pane. 
+
+```{r}
+p + geom_point(alpha = 0.3) +
+  geom_smooth(method = "loess", color = "red") +
+  scale_x_log10(labels = scales::dollar) +
+  labs(
+    x = "log GDP",
+    y = "Life Expectancy",
+    title = "A Gapminder Plot",
+    subtitle = "Data points are country-years",
+    caption = "Source: Gapminder"
+  ) +
+  # include a nice background
+  ggthemes::theme_clean()
+```
+
+## Saving/exporting figures
+
+```{r}
+# save your work to the working directory
+ggsave("figure_example.png")
+```
+
+## Multiple plots: Facetting and compound figures
+
+Basic ideas:
+
+- Grouping: tell `ggplot2` about the structure of your data 
+- Facetting: break up your data into pieces for a plot 
+
+**The importance of grouping**
+
+- Can you guess what's wrong here when we try to make a line plot?
+
+```{r}
+p + geom_point()
+p + geom_line()
+```
+
+`geom_line` joins up all the lines for each particular year in the order they appear in the dataset. `ggplot2` does not know the yearly observations in your data are grouped by country. 
+
+Note that you need grouping when the grouping information you need to tell is not built into the mapped variables (like continent).
+
+**Facetting**
+
+Let's try it in a facetted example. Facetting is to make small multiples; in our case, sub-plots based on a grouping variable like "continent". 
+
+- `facet_wrap`: based on a single categorical variable like `facet_wrap(~single_categorical_variable)`. Your panels will be laid out in order and then wrapped into a grid.
+- `facet_grid`: when you want to cross-classify some data by two categorical variables like `facet_grid(one_cat_variable ~ two_cat_variable)`. 
+
+```{r}
+p + geom_line(aes(group = country)) # group by, # The outlier is Kuwait.
+p + geom_line(aes(group = country)) + facet_wrap(~continent) # facetting
+p + geom_line(aes(group = country), color = "gray70") +
+  geom_smooth(size = 1.1, method = "loess", se = FALSE) +
+  scale_y_log10(labels = scales::dollar) +
+  facet_wrap(~continent, ncol = 5) + # for single categorical variable; for multiple categorical variables use facet_grid()
+  labs(
+    x = "Year",
+    y = "GDP per capita",
+    title = "GDP per capita on Five continents"
+  ) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+**Transforming**
+
+Transforming: perform some calculations on or summarize your data before producing the plot. Use pipes to summarize data
+
+Let's experiment with bar charts. By default, `geom_bar` [uses](https://www.rdocumentation.org/packages/ggplot2/versions/1.0.1/topics/geom_bar) stat = "bins", which makes the height of each bar equal to the number of cases in each group. If you have a y column, then you should use `stat = "identity"` argument. Alternatively, you can use `geom_col()`.
+
+First, summarize mean gdpPercap and lifeExp
+
+```{r}
+gapminder_formatted <- gapminder %>%
+  group_by(continent, year) %>%
+  summarize(
+    gdp_mean = mean(gdpPercap),
+    lifeExp_mean = mean(lifeExp)
+  )
+gapminder_formatted
+```
+
+```{r}
+# plot! that looks much nicer :) 
+ggplot(data = gapminder_formatted, aes(x = year, y = lifeExp_mean, color = continent)) +
+  geom_point() +
+  labs(
+    x = "Year",
+    y = "Life expectancy",
+    title = "Life expectancy on Five continents"
+  )
+```
+
+Or, facet by continent!
+
+```{r}
+# plot! that looks much nicer :) 
+ggplot(data = gapminder_formatted, aes(x = year, y = lifeExp_mean, color = continent)) +
+  geom_point() +
+  labs(
+    x = "Year",
+    y = "Life expectancy",
+    title = "Life expectancy on Five continents"
+  ) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+```
+
+```{r}
+# Facet by country where continent is filtered by Europe
+gapminder %>%
+  filter(continent == "Europe") %>%
+  group_by(country, year) %>%
+  summarize(
+    gdp_mean = mean(gdpPercap),
+    lifeExp_mean = mean(lifeExp)
+  ) %>%
+  ggplot(aes(x = year, y = lifeExp_mean)) +
+  geom_point() +
+  labs(
+    x = "Year",
+    y = "Life expectancy",
+    title = "Life expectancy in Europe"
+  ) +
+  facet_wrap(~country)
+```
+
+Or, use  boxplots...
+
+```{r}
+# Descending alphabetical sorting
+gapminder %>%
+  filter(continent == "Europe") %>%
+  group_by(country, year) %>%
+  summarize(
+    gdp_mean = mean(gdpPercap),
+    lifeExp_mean = mean(lifeExp)
+  ) %>%
+  ggplot(aes(x = country, y = lifeExp_mean)) +
+  geom_boxplot() +
+  labs(
+    x = "Country",
+    y = "Life expectancy",
+    title = "Life expectancy in Europe"
+  ) +
+  coord_flip()
+```
+
+```{r}
+# reorder by ascending
+gapminder %>%
+  filter(continent == "Europe") %>%
+  group_by(country, year) %>%
+  summarize(
+    gdp_mean = mean(gdpPercap),
+    lifeExp_mean = mean(lifeExp)
+  ) %>%
+  ggplot(aes(x = reorder(country, lifeExp_mean), y = lifeExp_mean)) +
+  geom_boxplot() +
+  labs(
+    x = "Country",
+    y = "Life expectancy",
+    title = "Life expectancy in Europe"
+  ) +
+  coord_flip()
+
+
+# reorder by descending (note the minus sign)
+gapminder %>%
+  filter(continent == "Europe") %>%
+  group_by(country, year) %>%
+  summarize(
+    gdp_mean = mean(gdpPercap),
+    lifeExp_mean = mean(lifeExp)
+  ) %>%
+  ggplot(aes(x = reorder(country, -lifeExp_mean), y = lifeExp_mean)) +
+  geom_boxplot() +
+  labs(
+    x = "Country",
+    y = "Life expectancy",
+    title = "Life expectancy in Europe"
+  ) +
+  coord_flip()
+```
+
+If you want to compound multiple plots into a single figure, whceck out the `gridExtra`, `cowplot` and `patchwork` R packages. 
+
+## Plotting text
+
+Label countries in Asia or the Americas only by filtering with the logical or `|` operator. Facet by continent.
+
+```{r}
+gapminder %>%
+  filter(continent == "Asia" | continent == "Americas") %>%
+  group_by(continent, country) %>%
+  summarize(
+    gdp_mean = mean(gdpPercap),
+    lifeExp_mean = mean(lifeExp)
+  ) %>%
+  ggplot(aes(x = gdp_mean, y = lifeExp_mean)) +
+  geom_point() +
+  geom_text(aes(label = country)) +
+  scale_x_log10() +
+  facet_grid(~continent)
+```
+
+Add a nice label...
+
+```{r}
+gapminder %>%
+  filter(continent == "Asia" | continent == "Americas") %>%
+  group_by(continent, country) %>%
+  summarize(
+    gdp_mean = mean(gdpPercap),
+    lifeExp_mean = mean(lifeExp)
+  ) %>%
+  ggplot(aes(x = gdp_mean, y = lifeExp_mean)) +
+  geom_point() +
+  geom_label(aes(label = country)) +
+  scale_x_log10() +
+  facet_grid(~continent)
+```
+
+... and avoid text overlaps.
+
+```{r}
+gapminder %>%
+  filter(continent == "Asia" | continent == "Americas") %>%
+  group_by(continent, country) %>%
+  summarize(
+    gdp_mean = mean(gdpPercap),
+    lifeExp_mean = mean(lifeExp)
+  ) %>%
+  ggplot(aes(x = gdp_mean, y = lifeExp_mean)) +
+  geom_point() +
+  ggrepel::geom_text_repel(aes(label = country)) + # there's also geom_label_repel
+  scale_x_log10() +
+  facet_grid(~continent)
+```
+
+# Challenge - ggplot2
+
+1. Use the `load()` function to load "oak.RData". 
+
+```{r}
+## YOUR CODE HERE
+load("data/preprocessed/oak.RData")
+```
+
+2. Make boxplots for male and female drivers. 
+
+- Define a custom y-axis with intervals of 0, 20, 40, 60, 80, and 100. 
+- Fill the boxes with the "BuPu" RColorBrewer palette. 
+- Apply the Stata ggtheme
+
+```{r}
+## YOUR CODE HERE
+ggplot(clean, 
+       aes(x = sex, 
+           y = age,
+           fill = sex)) + 
+  geom_boxplot() + 
+  scale_y_continuous(breaks = c(0, 20, 40, 60, 80, 100),
+                     limits = c(0, 100)) + 
+  scale_fill_brewer(palette = "BuPu") + 
+  ggthemes::theme_stata() + 
+  theme(legend.position = "none")
+```
+
+## Ploting models 
+
+In plotting models, we extensively use David Robinson's [broom package](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) in R. The idea is to transform model outputs (i.e., predictions and estimations) into tidy objects so that we can easily combine, separate, and visualize these elements. 
+
+**Plotting several fits at the same time**
+
+Note the use of three `geom_smooth()` functions. What happens if you use a hashtag to comment out one or the other?
+
+```{r}
+model_colors <- RColorBrewer::brewer.pal(3, "Set1") # select three qualitatively different colors from a larger palette.
+gapminder %>%
+  ggplot(aes(x = log(gdpPercap), y = lifeExp)) +
+  geom_point(alpha = 0.2) +
+  geom_smooth(method = "lm", aes(color = "OLS", fill = "OLS")) +
+  geom_smooth(
+    method = "lm", formula = y ~ splines::bs(x, df = 3),
+    aes(color = "Cubic Spline", fill = "Cubic Spline")
+  ) +
+  geom_smooth(method = "loess", aes(color = "LOESS", fill = "LOESS")) +
+  theme(legend.position = "top") +
+  scale_color_manual(name = "Models", values = model_colors) +
+  scale_fill_manual(name = "Models", values = model_colors)
+```
+
+**Extracting model outcomes**
+
+Save a linear regression model in a variable named `out`. 
+
+```{r}
+# regression model
+out <- lm(
+  formula = lifeExp ~ gdpPercap + pop + continent,
+  data = gapminder
+)
+```
+
+`tidy()` is a method in the `broom` package. It "constructs a dataframe that summarizes the model's statistical findings". As the description states, tidy is a function that can be used for various models. For instance, a tidy can extract following information from a regression model.
+
+- `Term`: a term being estimated 
+- `p.value`
+- `statistic`: a test statistic used to compute p-value
+- `estimate` 
+- `conf.low`: the low end of a confidence interval 
+- `conf.high`: the high end of a confidence interval
+- `df`: degrees of freedom
+
+#### Coefficients and confidence intervals
+
+```{r}
+# estimates
+out_comp <- broom::tidy(out)
+
+# construct the base layer
+p <- out_comp %>%
+  ggplot(aes(x = term, y = estimate))
+p
+
+# plot the estimates as points
+p + geom_point() +
+  coord_flip() +
+  theme_bw()
+```
+
+#### Confidence intervals
+
+```{r}
+# save the estimates plus their confidence intervals
+out_conf <- broom::tidy(out, conf.int = TRUE)
+
+# plot coefficients using geom_pointrange()
+out_conf %>%
+  ggplot(aes(x = reorder(term, estimate), y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_pointrange() +
+  coord_flip() +
+  labs(x = "", y = "OLS Estimate") +
+  theme_bw()
+
+# plot coefficients with errorbars
+out_conf %>%
+  ggplot(aes(x = estimate, y = reorder(term, estimate))) +
+  geom_point() +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high,
+                     height = .25)) +
+  labs(y = "", x = "OLS Estimate") +
+  theme_bw()
+```
+
+# Statistical modeling with `broom` 
+
+## Nesting
+
+The following example comes from [R for Data Science](https://r4ds.had.co.nz/many-models.html) by Garrett Grolemund and Hadley Wickham. Nesting allow you to run multiple models simultaneously? Using a nested data frame. Check out this YouTube video to learn more: https://www.youtube.com/watch?v=rz3_FDVt9eg
+
+You can think about nesting this way:
+- **Grouped data: each row = an observation**
+- **Nested data: each row = a group**
+
+# Challenge - nesting
+
+1. In the following example, why do we use `country` and `continent` for nesting variables?
+
+```{r}
+nested <- gapminder %>%
+  group_by(country, continent) %>%
+  nest()
+head(nested)
+
+# Retrieve just the first list from the grouped data frame
+nested$data %>% purrr::pluck(1)
+```
+
+- Custom function
+
+```{r}
+lm_model <- function(df) {
+  lm(lifeExp ~ year, data = df)
+}
+```
+
+- Apply function to the nested data
+
+```{r}
+# Apply m_model to the nested data
+nested <- nested %>%
+  mutate(models = purrr::map(data, lm_model)) # Add the list object as a new column
+head(nested)
+```
+
+S3 is part of R's object-oriented systems. If you need further information, check out [this section](http://adv-r.had.co.nz/S3.html) in Hadley's Advanced R.
+
+## `glance()`, `tidy()`, and `augment()`
+
+-   `broom::glance(model)`: for evaluating model quality and/or complexity
+-   `broom::tidy(model)`: for extracting each coefficient in the model (the estimates + its variability)
+-   `broom::augment(model, data)`: for getting extra values (residuals, and influence statistics). A convenient tool in case if you want to plot fitted values and raw data together. 
+
+Check out this `broom` YouTube video to learn more: https://www.youtube.com/watch?v=7VGPUBWGv6g&ab_channel=Work-Bench
+
+```{r}
+glanced <- nested %>%
+  mutate(glance = map(models, broom::glance))
+glanced
+
+# Pluck the first item on the list 
+glanced$glance %>% pluck(1)
+
+# Pull just the p.value 
+glanced$glance %>% pluck(1) %>% pull(p.value)
+```
+
+`unnest()` unpacks the list objects stored in the `glanced` column
+
+```{r}
+glanced %>%
+  unnest(glance) %>%
+  arrange(r.squared) 
+
+glanced %>%
+  unnest(glance) %>%
+  ggplot(aes(continent, r.squared)) +
+  geom_jitter(width = 0.5)
+```
+
+`tidy()`
+
+Creates a tibble from a model's statistical output
+
+```{r}
+# View the nested structure
+# we see the number of observations and other five columns in the column named "data"
+nested <- gapminder %>%
+  group_by(continent) %>%
+  nest()
+nested
+
+# specify our model in a column named "models"
+nested <- nested %>%
+  mutate(models = map(data, ~lm(lifeExp ~ year + country, data = .))) 
+nested
+
+# tidy up!
+tidied <- nested %>%
+  mutate(tidied = map(models, broom::tidy))
+tidied
+
+# construct tibble of estimates and p-values
+model_out <- tidied %>%
+  unnest(tidied) %>%
+  mutate(term = stringr::str_replace(term, "country", "")) %>%
+  select(continent, term, estimate, p.value) %>%
+  mutate(p_threshold = ifelse(p.value < 0.05, 1, 0))
+model_out
+
+# show countries with statistical insignificance
+model_out %>% filter(p_threshold == 1) %>% pull(term) %>% unique()
+
+# show countries with statistical significance
+model_out %>% filter(p_threshold == 0) %>% pull(term) %>% unique()
+```
+
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
