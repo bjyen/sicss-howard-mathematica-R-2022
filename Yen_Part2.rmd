@@ -208,9 +208,13 @@ Use `pivot_wider()` to widen the `stocks` dataframe into a datafrme named `stock
 ```{r}
 ## YOUR CODE HERE
 
+stocks_wide<-stocks%>%pivot_wider(
+    names_from = year, # first
+    values_from = qtr # second
+  )
 
-
-
+stocks_wide
+# 3 missing values now
 
 
 ```

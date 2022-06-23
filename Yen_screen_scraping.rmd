@@ -1,0 +1,31 @@
+---
+title: "Screen Scraping "
+output: html_notebook
+date: June 21, 2022
+---
+
+
+
+```{r}
+install.packages("rvest")
+install.packages("selectr")
+library(rvest)
+library(selectr)
+
+html_page<-read_html("https://www.theguardian.com/technology/2022/feb/20/facebook-lets-vigilantes-in-ethiopia-incite-ethnic-killing")
+html_page
+
+section_of_html<-html_node(html_page, xpath='/html/body/gu-island[8]')
+head(section_of_html)
+
+health_rankings<-html_table(section_of_html)
+head(health_rankings)
+
+
+html_table(section_of_html)
+```
+
+# June 22, 2022 Text Analysis
+```{r}
+
+```

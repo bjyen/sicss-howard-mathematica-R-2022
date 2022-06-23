@@ -1,0 +1,21 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+setwd("C:/Users/BJY/OneDrive - Indiana University/@ IU 2022 Summer/Mathematica_Howard/sicss-howard-mathematica-R-2022/Day 3_text_analysis(20220622)")
+harris_favorability<-read.csv("https://raw.githubusercontent.com/sicsshowardmathematica/day3_twitter_data/main/vp_harris_favorability.csv")
+write.csv(harris_favorability,"C:/Users/BJY/OneDrive - Indiana University/@ IU 2022 Summer/Mathematica_Howard/sicss-howard-mathematica-R-2022/Day 3_text_analysis(20220622)/harris_favorability.csv")
+load("VPHarris_Tweets.Rdata")
+write.csv(VPHarris_Tweets,"VPHarris_Tweets.csv")
+load("PersonalHarris_Tweets.Rdata")
+write.csv(PersonalHarris_Tweets,"PersonalHarris_Tweets.csv")
+load("VPHarris_PersonalHarris_Tweets.Rdata")
+write.csv(VPHarris_PersonalHarris_Tweets.Rdata,"VPHarris_PersonalHarris_Tweets.csv")
+
+```
